@@ -21,6 +21,8 @@ app.use(cookieParser());
 
 app.use("/api/auth", proxy("http://localhost:3001/"));
 app.use("/api/user", proxy("http://localhost:3004/"));
+app.use("/api/course", proxy("http://localhost:3005/"));
+app.use("/api/code", proxy("http://localhost:3006/"));
 app.use("/product", proxy("http://localhost:3002/"));
 app.use("/cart", proxy("http://localhost:3003/"));
 
