@@ -8,17 +8,17 @@ export class ExcutionController {
 
   @Post()
   async excute(@Body() codeExcuteDto: CodeEXcuteDTO) {
-    const { code,testCases ,driver}:any = codeExcuteDto;
+    const { code,testCases ,driver,language}:any = codeExcuteDto;
     // console.log(testCases);
     
- 
+    
     
     try {
-      const result = await this.executionService.excute(code,testCases,driver);
+      const result = await this.executionService.excute(code,testCases,driver,language);
       return result
     } catch (error) {
       // console.error("Error executing code:", error);
       throw new BadRequestException(error.message || 'An error occurred while executing the code');
     }
   }
-} 
+}  

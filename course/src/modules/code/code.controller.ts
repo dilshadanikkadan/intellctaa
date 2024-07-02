@@ -9,93 +9,88 @@ import {
 } from '@nestjs/common';
 import { CodeService } from './code.service';
 import { codeExcuteDTO } from './dtos/code.excute.dto';
-import axios from 'axios';
 import { createReadStream } from 'fs';
 import { join } from 'path';
 import { Response } from 'express';
 import { promises as fs } from 'fs';
+const PROBLEMS_DIR = join(process.cwd(), '..', 'problems');
 @Controller('')
 export class CodeController {
   constructor(private codeService: CodeService) {}
 
+  private async readFile(basePath: string, fileName: string): Promise<any> {
+    const filePath = join(basePath, fileName);
+    return fs.readFile(filePath, 'utf8');
+  }
+
   @Get('/getFile/:question/:language')
   getFile(@Res() res: Response, @Param() param: string) {
-    console.log('++++++++++++++reached', param);
     const { question, language }: any = param;
+    let fileExt;
 
+    switch (language) {
+      case 'javascript':
+        fileExt = 'js';
+        break;
+      case 'python':
+        fileExt = 'py';
+
+      default:
+        fileExt = 'py';
+    }
+ 
     const file = createReadStream(
       join(
-        process.cwd(),
-        '..',
-        `/problems/${question}/languages/${language}/solution.template.js`,
+        `${PROBLEMS_DIR}/${question}/languages/${language}/solution.template.${fileExt}`,
       ),
     );
+    console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+    
     return file.pipe(res);
   }
 
   @Post('/codeExcute')
   async excute(@Body() payload: codeExcuteDTO) {
-    const { code } = payload;
+    const { code, question = 'add_num_001', language } = payload;
+    console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$",payload);
+    
+    let fileExt;
 
-    const driverPath = join(
-      process.cwd(),
-      '..',
-      `/problems/add_num_001/languages/javascript/driver.js`,
-    );
-    const testPaths = join(
-      process.cwd(),
-      '..',
-      `/problems/add_num_001/languages/javascript/test.case.txt`,
-    );
+    switch (language) {
+      case 'javascript':
+        fileExt = 'js';
+        break;
+      case 'python':
+        fileExt = 'py';
 
-    const expectedOutPutPath = join(
-      process.cwd(),
-      '..',
-      `/problems/add_num_001/languages/javascript/output.txt`,
-    );
-
-    const driver = await fs.readFile(driverPath, 'utf8');
-    const testCases = await fs.readFile(testPaths, 'utf8');
-    const expectedOut = await fs.readFile(expectedOutPutPath, 'utf8');
-    const allTestCases = testCases.split('__').map((test) => test.trim())
-    const allExpectedOut = expectedOut.split('__').map((x) => Number(x.trim()));
-    console.log(
-      '_______________________________________________________________',
-    );
-    console.log(allTestCases);
-    console.log(
-      '_______________________________________________________________',
-    );
-
-    const runCode = `
-${code}
-`;
-
-    try {
-      const response = await axios.post(
-        'http://localhost:5000/api/code/excution',
-        { code: runCode, testCases: allTestCases, driver },
-        {
-          withCredentials: true,
-        },
-      );
-      console.log("*************%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
-      let result =[]
-      console.log(response.data.map(x=> x.output))
-      
-      console.log("*************%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
-      
-      return response.data;
-    } catch (error) {
-      if (error.response) {
-        throw new BadRequestException(error.response.data);
-      } else if (error.request) {
-        throw new BadRequestException(
-          'No response received from execution server',
-        );
-      } else {
-        throw new BadRequestException('Error setting up the request');
-      }
+      default:
+        fileExt = 'py';
     }
+    const basePath_Question = join(
+      PROBLEMS_DIR,
+      question,
+      'languages',
+      language,
+    );
+
+    const [driver, testCases, expectedOut] = await Promise.all([
+      this.readFile(basePath_Question, `driver.${fileExt}`),
+      this.readFile(basePath_Question, 'test.case.txt'),
+      this.readFile(basePath_Question, 'output.txt'),
+    ]);
+
+    const allTestCases = testCases.split('__').map((test) => test.trim());
+    const allExpectedOut = expectedOut.split('__').map((x) => Number(x.trim()));
+    const runCode = `
+    ${code}
+    `;
+
+
+    console.log("____________________________________________________________________");
+    console.log(allExpectedOut);
+    console.log("____________________________________________________________________");
+    
+    return await this.codeService.codeRequestApi(runCode, allTestCases, driver,language);
+
   }
 }

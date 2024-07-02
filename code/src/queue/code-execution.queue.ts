@@ -8,10 +8,11 @@ export class CodeExecutionQueue {
     @InjectQueue('code-execution') private codeExecutionQueue: Queue,
   ) {}
 
-  async addJob(code: string,testCases:[],driver:string) {
+  async addJob(code: string,testCases:[],driver:string,language:string) {
 
-
-    const job = await this.codeExecutionQueue.add('execute', { code,testCases,driver });
+  console.log("_______________________from add JOn",testCases);
+  
+    const job = await this.codeExecutionQueue.add('execute', { code,testCases,driver,language });
     const res = await job.finished();
 
     const result =

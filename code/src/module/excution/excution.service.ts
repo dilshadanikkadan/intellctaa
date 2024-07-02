@@ -6,12 +6,12 @@ import { CodeExecutionQueue } from 'src/queue/code-execution.queue';
 export class ExcutionService {
   constructor(private codeExecutionQueue: CodeExecutionQueue) {}
 
-  async excute(code: string,testCases:[],driver:string) {
+  async excute(code: string,testCases:[],driver:string,language:string) {
     // console.log("Got code:", code);
 
 
 
-    const job = await this.codeExecutionQueue.addJob(code,testCases,driver);
+    const job = await this.codeExecutionQueue.addJob(code,testCases,driver,language);
     console.log(job);
     
     return job
