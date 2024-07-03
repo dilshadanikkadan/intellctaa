@@ -3,11 +3,11 @@ import axios from 'axios';
 
 @Injectable()
 export class CodeService {
-  async codeRequestApi(runCode, allTestCases, driver,language) {
+  async codeRequestApi(runCode, allTestCases, driver, language) {
     try {
       const response = await axios.post(
         'http://localhost:5000/api/code/excution',
-        { code: runCode, testCases: allTestCases, driver,language },
+        { code: runCode, testCases: allTestCases, driver, language },
         {
           withCredentials: true,
         },
@@ -24,5 +24,27 @@ export class CodeService {
         throw new BadRequestException('Error setting up the request');
       }
     }
+  }
+
+  testCode(output: any, tests: any,problemType:any) {
+    let result = [];
+    console.log('^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^');
+    console.log(output);
+    console.log(tests);
+    const all_outPut = problemType === "array" ? output: JSON?.parse(output.replace(/'/g, '"'));
+    function rmSymbol(str) {
+        return str.replace(/['"]/g, '');
+    }
+    console.log('^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^',rmSymbol(tests[0]) ,all_outPut[0]);
+  
+
+    for (let i = 0; i < 3; i++) {
+      result.push({
+        testCase: i + 1,
+        output: all_outPut[i] == rmSymbol(tests[i]),
+      });
+    }
+
+    return result;
   }
 }

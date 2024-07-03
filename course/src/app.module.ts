@@ -5,12 +5,16 @@ import { EmailModule } from './email/email.module';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { CodeModule } from './modules/code/code.module';
+import { CourseModule } from './modules/course/course.module';
+import { MongooseModule } from '@nestjs/mongoose';
 
 @Module({
   imports: [
+    MongooseModule.forRoot('mongodb+srv://dilu1234:dilshad4321@cluster0.mx2yncu.mongodb.net/courese-service'),
     EmailModule,
     EventEmitterModule.forRoot(),
-    CodeModule
+    CodeModule,
+    CourseModule,
   ],
   controllers: [AppController],
   providers: [AppService],

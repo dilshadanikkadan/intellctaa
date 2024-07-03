@@ -12,7 +12,7 @@ import { codeExcuteDTO } from './dtos/code.excute.dto';
 import { createReadStream } from 'fs';
 import { join } from 'path';
 import { Response } from 'express';
-import { promises as fs } from 'fs';
+import { promises as fs ,readdirSync} from 'fs';
 const PROBLEMS_DIR = join(process.cwd(), '..', 'problems');
 @Controller('')
 export class CodeController {
@@ -44,15 +44,13 @@ export class CodeController {
         `${PROBLEMS_DIR}/${question}/languages/${language}/solution.template.${fileExt}`,
       ),
     );
-    console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
     
     return file.pipe(res);
   }
 
   @Post('/codeExcute')
   async excute(@Body() payload: codeExcuteDTO) {
-    const { code, question = 'add_num_001', language } = payload;
-    console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$",payload);
+    const { code, question = 'add_num_001', language,problemType="array" } = payload;
     
     let fileExt;
 
@@ -80,17 +78,24 @@ export class CodeController {
     ]);
 
     const allTestCases = testCases.split('__').map((test) => test.trim());
-    const allExpectedOut = expectedOut.split('__').map((x) => Number(x.trim()));
+    const allExpectedOut = expectedOut.split('__').map((x) => x.trim());
     const runCode = `
     ${code}
     `;
 
-
-    console.log("____________________________________________________________________");
-    console.log(allExpectedOut);
-    console.log("____________________________________________________________________");
     
-    return await this.codeService.codeRequestApi(runCode, allTestCases, driver,language);
+    const outPut_exc= await this.codeService.codeRequestApi(runCode, allTestCases, driver,language);
+    console.log("____________________________________________________________________");
+    console.log(expectedOut.split('__').join(""));
+    console.log(outPut_exc);
+    console.log("____________________________________________________________________");
+    return this.codeService.testCode(outPut_exc,allExpectedOut,problemType)
 
+    
+  }
+@Get('/getAllQuestion')
+  getAllQuestion(){
+    const allProblems = readdirSync(PROBLEMS_DIR)
+     return allProblems.filter((x)=> /\d/.test(x))
   }
 }

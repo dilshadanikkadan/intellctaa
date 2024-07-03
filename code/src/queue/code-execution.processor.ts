@@ -99,9 +99,7 @@ export class CodeExecutionProcessor {
     const executionCode = this.generateExecutionCode(code, driver, testCases);
 
     this.logger.debug('Execution code:\n' + testCases);
-    console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
-    console.log(executionCode);
-    console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
+ 
     try {
       const results = await this.runPythonCode(executionCode);
       return results;
@@ -116,7 +114,7 @@ export class CodeExecutionProcessor {
     testCases: string[],
   ): string {
     const formattedTestCases = testCases.map(testCase => 
-      testCase.split(',').map(item => Number(item.trim()))
+      testCase.split(',').map(item=> Number(item.trim()))
     );
     
     const pythonTestCases = JSON.stringify(formattedTestCases)
@@ -125,13 +123,37 @@ export class CodeExecutionProcessor {
     .replace(/\]/g, ")");
     
     console.log("???????????????????????",testCases);
-  
-  return `
-${code}    
-for case in(${testCases}):
-    print(${driver}(case))    
-  `.trim();
+    console.log("???????????????????????",pythonTestCases);
+    console.log("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^",testCases[0]);
+    console.log("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^",testCases[0].startsWith(`"`));
+    const isTestArray_ = testCases[0].startsWith("[") 
+    const isTeststring = testCases[0].startsWith(`"`) 
 
+if(isTeststring)   {
+  return`
+${code}
+res_=[]
+for case in(${testCases}):
+    res_.append(${driver}(case))
+print(res_)   
+    `.trim()   
+} 
+  if(isTestArray_){
+   return`
+${code}
+res_=[]
+for case in(${testCases}):
+    res_.append(${driver}(case))
+print(res_)   
+   `.trim() 
+  }
+  return `
+${code}   
+res_=[]
+for case in(${pythonTestCases}):
+    res_.append(${driver}(*case)) 
+print(res_)         
+  `.trim();
   }
 
   private runPythonCode(executionCode: string): Promise<string> {

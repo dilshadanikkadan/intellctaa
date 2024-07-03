@@ -3,4 +3,5 @@ export interface codeExcuteDTO {
     testCases: [];
     language?:string;
     question?:string
+    problemType?:"array"|"string"|"number"
   }
