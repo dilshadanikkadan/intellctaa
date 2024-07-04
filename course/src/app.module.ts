@@ -11,12 +11,13 @@ import { MongooseModule } from '@nestjs/mongoose';
 @Module({
   imports: [
     MongooseModule.forRoot('mongodb+srv://dilu1234:dilshad4321@cluster0.mx2yncu.mongodb.net/courese-service'),
+    // MongooseModule.forRoot('mongodb://localhost:27017/test_nest'),
     EmailModule,
     EventEmitterModule.forRoot(),
-    CodeModule,
+    CodeModule, 
     CourseModule,
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule {} 

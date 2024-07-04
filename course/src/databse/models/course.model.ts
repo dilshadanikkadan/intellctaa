@@ -29,7 +29,7 @@ export class Lesson {
 
   @Prop({type:[String],default:[]})
   problems:string[];
-}
+}  
 
 export const LessonSchema = SchemaFactory.createForClass(Lesson);
 

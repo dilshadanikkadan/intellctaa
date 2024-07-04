@@ -9,10 +9,10 @@ const kafka = new Kafka({
   brokers: ['localhost:29092'],
 });
 
-const consumer = kafka.consumer({
+const consumer = kafka.consumer({ 
   groupId: 'notification-group',
-});
-
+}); 
+ 
 export class UserCreatedCon extends KafkaConsumer {
   subject: Subjects = Subjects.NotificationService;
   groupId = Subjects.UserCreated;

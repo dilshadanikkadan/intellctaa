@@ -10,7 +10,7 @@ it('returns 200 if credential ok with login',async()=>{
       email: "dilshad786@gmail.com",
       password: "dilshad4321@",
       otp: "3312",
-    })
+    })  
     .expect(200)
 
     await request(app).post('/login').send({

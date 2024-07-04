@@ -14,10 +14,9 @@ export const createUser = async (payload: UserEntity) => {
     await deleteUser(email);
   }
 
-
   if (user?.isVerified) {
     throw new BadRequestError("Email Aleady Exist");
-  }
+  } 
   const otp = generateOTP();
   const newUser = new User({
     ...rest,
