@@ -7,6 +7,8 @@ import { EventEmitterModule } from '@nestjs/event-emitter';
 import { CodeModule } from './modules/code/code.module';
 import { CourseModule } from './modules/course/course.module';
 import { MongooseModule } from '@nestjs/mongoose';
+import { UserModule } from './modules/user/user.module';
+import { EntrollmentModule } from './modules/entrollment/entrollment.module';
 
 @Module({
   imports: [
@@ -15,7 +17,7 @@ import { MongooseModule } from '@nestjs/mongoose';
     EmailModule,
     EventEmitterModule.forRoot(),
     CodeModule, 
-    CourseModule,
+    CourseModule, UserModule, EntrollmentModule,
   ],
   controllers: [AppController],
   providers: [AppService],

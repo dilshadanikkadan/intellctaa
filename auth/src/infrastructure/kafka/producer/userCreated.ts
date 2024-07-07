@@ -53,6 +53,15 @@ export const UserSavedBatch = (data: any): any => {
         },
       ],
     },
+    {
+      topic: Subjects.CourseService,
+      messages: [
+        {
+          key: AuthTopics.UseSaved,
+          value: JSON.stringify(data),
+        },
+      ],
+    },
   ];
 };
 export default new UserCreated(producer);

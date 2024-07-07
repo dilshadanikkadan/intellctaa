@@ -4,6 +4,8 @@ import axios from 'axios';
 @Injectable()
 export class CodeService {
   async codeRequestApi(runCode, allTestCases, driver, language) {
+    console.log("#####################",language);
+    
     try {
       const response = await axios.post(
         'http://localhost:5000/api/code/excution',
@@ -42,6 +44,8 @@ export class CodeService {
       result.push({
         testCase: i + 1,
         output: all_outPut[i] == rmSymbol(tests[i]),
+        result:all_outPut[i],
+        expected:rmSymbol(tests[i])
       });
     }
 

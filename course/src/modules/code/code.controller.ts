@@ -7,12 +7,12 @@ import {
   Post,
   Res,
 } from '@nestjs/common';
-import { CodeService } from './code.service';
+import {  CodeService } from './code.service';
 import { codeExcuteDTO } from './dtos/code.excute.dto';
 import { createReadStream } from 'fs';
 import { join } from 'path';
 import { Response } from 'express';
-import { promises as fs ,readdirSync} from 'fs';
+import { promises as fs, readdirSync } from 'fs';
 const PROBLEMS_DIR = join(process.cwd(), '..', 'problems');
 @Controller('')
 export class CodeController {
@@ -24,12 +24,15 @@ export class CodeController {
   }
 
   @Get('/getFile/:question/:language')
-  getFile(@Res() res: Response, @Param() param: string) {
+  async getFile(@Res() res: Response, @Param() param: string) {
+    console.log(param);
+
     const { question, language }: any = param;
     let fileExt;
-
+    console.log("$$$$$$$$$$$***",language);
+    console.log("$$$$$$$$$$$***",fileExt);
     switch (language) {
-      case 'javascript':
+      case 'javaScript':
         fileExt = 'js';
         break;
       case 'python':
@@ -38,24 +41,47 @@ export class CodeController {
       default:
         fileExt = 'py';
     }
- 
-    const file = createReadStream(
-      join(
-        `${PROBLEMS_DIR}/${question}/languages/${language}/solution.template.${fileExt}`,
-      ),
-    );
-    
-    return file.pipe(res);
-  }
 
+ 
+
+    const basePath_Question = join(
+      PROBLEMS_DIR,
+      question,
+      'languages',
+      language,
+    );
+
+     const readMdFile = question.replace(/\d/g,'')
+    const [driver, testCases, expectedOut,readMd,solutionTemplate] = await Promise.all([
+      this.readFile(basePath_Question, `driver.${fileExt}`),
+      this.readFile(basePath_Question, 'test.case.txt'),
+      this.readFile(basePath_Question, 'output.txt'),
+      this.readFile(`${PROBLEMS_DIR}/${question}`,`${readMdFile}.md`),
+      this.readFile(basePath_Question,`solution.template.${fileExt}`),
+    ])
+
+    res.status(200).json([
+      {driver},
+      {testCases},
+      {expectedOut},
+      {readMd},
+      {solutionTemplate}
+    ])
+  }
+ 
   @Post('/codeExcute')
   async excute(@Body() payload: codeExcuteDTO) {
-    const { code, question = 'add_num_001', language,problemType="array" } = payload;
-    
+    const {
+      code,
+      question = 'add_num_001',
+      language,
+      problemType = 'array',
+    } = payload;
+
     let fileExt;
 
     switch (language) {
-      case 'javascript':
+      case 'javaScript':
         fileExt = 'js';
         break;
       case 'python':
@@ -80,22 +106,28 @@ export class CodeController {
     const allTestCases = testCases.split('__').map((test) => test.trim());
     const allExpectedOut = expectedOut.split('__').map((x) => x.trim());
     const runCode = `
-    ${code}
+    ${code} 
     `;
 
-    
-    const outPut_exc= await this.codeService.codeRequestApi(runCode, allTestCases, driver,language);
-    console.log("____________________________________________________________________");
-    console.log(expectedOut.split('__').join(""));
+    const outPut_exc = await this.codeService.codeRequestApi(
+      runCode,
+      allTestCases,
+      driver,
+      language,
+    );
+    console.log(
+      '____________________________________________________________________',
+    );
+    console.log(expectedOut.split('__').join(''));
     console.log(outPut_exc);
-    console.log("____________________________________________________________________");
-    return this.codeService.testCode(outPut_exc,allExpectedOut,problemType)
-
-    
+    console.log(
+      '____________________________________________________________________',
+    );
+    return this.codeService.testCode(outPut_exc, allExpectedOut, problemType);
   }
-@Get('/getAllQuestion')
-  getAllQuestion(){
-    const allProblems = readdirSync(PROBLEMS_DIR)
-     return allProblems.filter((x)=> /\d/.test(x))
+  @Get('/getAllQuestion')
+  getAllQuestion() {
+    const allProblems = readdirSync(PROBLEMS_DIR);
+    return allProblems.filter((x) => /\d/.test(x));
   }
 }

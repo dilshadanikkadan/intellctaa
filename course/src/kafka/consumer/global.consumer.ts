@@ -5,18 +5,18 @@ import { Kafka, EachMessagePayload } from 'kafkajs';
 import { createSubscriber } from '..';
 
 const kafka = new Kafka({
-  clientId: 'notification-service',
+  clientId: 'caourse-service',
   brokers: ['localhost:29092'],
 });
 
 const consumer = kafka.consumer({
-  groupId: 'notification-group',
+  groupId: 'caourse-group',
 });
 
 export class UserCreatedCon extends KafkaConsumer {
-  subject: Subjects = Subjects.NotificationService;
-  groupId = Subjects.UserCreated;
-
+  subject: Subjects = Subjects.CourseService;
+  groupId = Subjects.CourseService;
+ 
   constructor(private readonly eventEmitter: EventEmitter2) {
     super(consumer);
   } 
@@ -25,13 +25,15 @@ export class UserCreatedCon extends KafkaConsumer {
     if (payload.message.value) {
       const { key, value } = payload.message;
       const credentials = await JSON.parse(payload.message.value.toString());
+      console.log("+++++++++",credentials);
+      
       const subScriber = createSubscriber();
       const subscriberMethod = String(key);
       subScriber[subscriberMethod](credentials, this.eventEmitter );
     } else {
       console.error('Received message with undefined value');
     } 
-  }
+  } 
 }
 
 @Injectable() 
