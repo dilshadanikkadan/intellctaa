@@ -11,16 +11,52 @@ export class SubmissionService {
   ) {}
 
   async createSubmission(payload: SubmissionDto) {
-    const {problem,...rest}= payload
+    const { problem, ...rest } = payload;
     const newSubmisson = new this.submissionModel({
       ...rest,
-      problem:btoa(problem)
+      problem: btoa(problem),
     });
     return await newSubmisson.save();
   }
 
-  async getSubmission(questionName:string){
-     const query=await this.submissionModel.find({problemName:questionName}).populate("userId")
-     return query;
+  async getSubmission(questionName: string) {
+    const query = await this.submissionModel
+      .find({ problemName: questionName })
+      .populate('userId');
+    return query;
   }
-} 
+
+  async getMySubmission(payload: any) {
+    const { id, userId } = payload;
+    console.log("_______",payload);
+    
+    const query = await this.submissionModel.aggregate([
+      {
+        $match: {
+          $and: [{ userId: userId }, { problemName: id }],
+        },
+      },
+    ]);
+    return query
+  }
+  
+
+  async manageLike(payload:any){
+    const {userId,submissionId}:any= payload;
+    console.log("________#",payload);
+    const submission = await this.submissionModel.findById(submissionId);
+    console.log("________",submission);
+    
+    const isLiked = submission?.likes.includes(userId as never) ;
+    if(isLiked){
+      return await this.submissionModel.findByIdAndUpdate(submissionId,{
+        $pull:{likes:userId}
+      })
+    }else{
+      return await this.submissionModel.findByIdAndUpdate(submissionId,{
+        $push:{likes:userId}
+      })
+    }
+
+  }
+}

@@ -4,7 +4,6 @@ import axios from 'axios';
 @Injectable()
 export class CodeService {
   async codeRequestApi(runCode, allTestCases, driver, language) {
-    console.log("#####################",language);
     
     try {
       const response = await axios.post(
@@ -30,13 +29,15 @@ export class CodeService {
 
   testCode(output: any, tests: any,problemType:any) {
     let result = [];
-    console.log('^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^');
     console.log(output);
     console.log(tests);
     const all_outPut = problemType === "array" ? output: JSON?.parse(output.replace(/'/g, '"'));
     function rmSymbol(str) {
-        return str.replace(/['"]/g, '');
+      return str.replace(/['"]/g, '');
     }
+    console.log('VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV',all_outPut);
+    console.log('VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV',tests[0]);
+    console.log('VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV',problemType);
     console.log('^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^',rmSymbol(tests[0]) ,all_outPut[0]);
   
 

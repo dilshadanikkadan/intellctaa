@@ -10,6 +10,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { UserModule } from './modules/user/user.module';
 import { EntrollmentModule } from './modules/entrollment/entrollment.module';
 import { SubmissionModule } from './modules/submission/submission.module';
+import { TasksModule } from './modules/tasks/tasks.module';
 
 @Module({
   imports: [
@@ -18,7 +19,7 @@ import { SubmissionModule } from './modules/submission/submission.module';
     EmailModule,
     EventEmitterModule.forRoot(),
     CodeModule, 
-    CourseModule, UserModule, EntrollmentModule, SubmissionModule,
+    CourseModule, UserModule, EntrollmentModule, SubmissionModule, TasksModule,
   ],
   controllers: [AppController],
   providers: [AppService],

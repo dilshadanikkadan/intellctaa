@@ -30,7 +30,7 @@ export class CodeController {
     const { question, language }: any = param;
     let fileExt;
     console.log("$$$$$$$$$$$***",language);
-    console.log("$$$$$$$$$$$***",fileExt);
+    console.log("$$$$$$$$$$$***",fileExt); 
     switch (language) {
       case 'javaScript':
         fileExt = 'js';
@@ -73,12 +73,13 @@ export class CodeController {
   async excute(@Body() payload: codeExcuteDTO) {
     const {
       code,
-      question = 'add_num_001',
+      question,
       language,
-      problemType = 'array',
+      problemType,
     } = payload;
-
+ 
     let fileExt;
+    console.log("#####################)))",question);
 
     switch (language) {
       case 'javaScript':

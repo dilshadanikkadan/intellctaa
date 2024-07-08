@@ -1,6 +1,7 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Req } from '@nestjs/common';
 import { SubmissionService } from './submission.service';
 import { SubmissionDto } from './dtos/submission.dto';
+import { Response ,Request} from 'express';
 
 @Controller('')
 export class SubmissionController {
@@ -16,5 +17,21 @@ export class SubmissionController {
     async getSubmission(@Param()  param:string){
       const { id}:any = param;
       return await this.submissionService.getSubmission(id)
+    }
+
+    @Get('/getMySubmission/:id')
+    async getSubmitted(@Param() param:string,@Req() req:Request){
+      const {id}:any = param;
+      const  userId =req.cookies.session_id
+
+       return await this.submissionService.getMySubmission({id,userId})
+    }
+
+    @Post('/like')
+    async likeManage(@Body() payload:string, @Req() req:Request){
+      const {submissionId}:any = payload  
+      const  userId =req.cookies.session_id
+
+      return await this.submissionService.manageLike({userId,submissionId})
     }
 }

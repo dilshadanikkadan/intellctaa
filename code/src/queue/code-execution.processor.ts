@@ -88,9 +88,9 @@ export class CodeExecutionProcessor {
     }>,
   ) {
     this.logger.debug('Start executing code...');
-    
+
     const { code, testCases, driver, language } = job.data;
-    console.log('^^^^^^^^^^^^^^^^^^^^^^^^^neymar',language);
+    console.log('^^^^^^^^^^^^^^^^^^^^^^^^^neymar', language);
 
     // if (language !== 'python') {
     //   throw new Error('Unsupported language');
@@ -135,6 +135,9 @@ export class CodeExecutionProcessor {
     );
     const isTestArray_ = testCases[0].startsWith('[');
     const isTeststring = testCases[0].startsWith(`"`);
+    const newTest = testCases.map((item) => item.replace(/"/g, ''));
+    console.log('isTesting string', isTeststring);
+    console.log('isTesting string', newTest);
 
     if (isTeststring) {
       return `
@@ -188,6 +191,7 @@ print(res_)
         if (code === 0) {
           this.logger.debug('Code execution completed successfully');
           resolve(output);
+          console.log('_____', output);
         } else {
           reject(
             new Error(
@@ -208,17 +212,19 @@ print(res_)
     testCases: string[],
     driver: string,
   ): Promise<string> {
+    console.log('#####################', driver);
+
     const executionCode = `
       ${code}
 
-      ${driver} 
+      ${driver}  
 
       const results = [];
       ${testCases
         .map(
           (testCase, index) => `
       try {
-        const result = add(${testCase});
+        const result = ${driver}(${testCase});
         results.push(result);
       } catch (error) {
         results.push({ case: ${index + 1}, input: "${testCase}", error: error.message });

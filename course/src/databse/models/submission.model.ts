@@ -21,8 +21,8 @@ export class Submission{
     @Prop({type:String})
     problem: string;
 
-    @Prop({type:Number,default:0})
-    likes:number
+    @Prop({type:[String],default:[]})
+    likes:[]
 
 }
 
