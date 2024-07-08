@@ -31,7 +31,7 @@ export class CodeService {
     let result = [];
     console.log(output);
     console.log(tests);
-    const all_outPut = problemType === "array" ? output: JSON?.parse(output.replace(/'/g, '"'));
+    const all_outPut = output
     function rmSymbol(str) {
       return str.replace(/['"]/g, '');
     }

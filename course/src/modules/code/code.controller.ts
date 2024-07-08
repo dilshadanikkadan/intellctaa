@@ -117,12 +117,11 @@ export class CodeController {
       language,
     );
     console.log(
-      '____________________________________________________________________',
+      '____________________________________________________________________**',
     );
-    console.log(expectedOut.split('__').join(''));
     console.log(outPut_exc);
     console.log(
-      '____________________________________________________________________',
+      '____________________________________________________________________**',
     );
     return this.codeService.testCode(outPut_exc, allExpectedOut, problemType);
   }

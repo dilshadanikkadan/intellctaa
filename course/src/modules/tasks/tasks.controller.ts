@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { TaskDto } from './dtos/tasks.dto';
 import { TasksService } from './tasks.service';
 
@@ -15,4 +15,6 @@ constructor(private taskService:TasksService){}
   async getTodaysTask(){
       return await this.taskService.getTodaysTasks()
    }
+
+ 
 }

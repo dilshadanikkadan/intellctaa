@@ -59,4 +59,29 @@ export class SubmissionService {
     }
 
   }
+
+  async getAttencence(userId){
+     const totalSubmission = await this.submissionModel.aggregate([
+       {
+        $match:{
+          userId
+        }
+       },
+
+       {
+        $project:{
+          totalSubmission:  {$dateToString:{ format: "%Y-%m-%d", date: "$submittedAt" } },
+          userId:1,
+          problemName:1
+        }
+       },
+       {
+        $group: {
+         _id: "$totalSubmission",
+         submissionByDate: { $push: "$$ROOT" },
+        },
+       },
+     ])  
+     return totalSubmission 
+  }
 }

@@ -212,9 +212,34 @@ print(res_)
     testCases: string[],
     driver: string,
   ): Promise<string> {
-    console.log('#####################', driver);
+    const isString = testCases[0].startsWith('"');
+    const formattedTestCases = testCases.map(x => x.replace(/^"|"$/g, ''));
+    let executionCode;
 
-    const executionCode = `
+    if (isString) {
+      executionCode = `
+      ${code}
+
+      ${driver}  
+
+      const results = [];
+      ${formattedTestCases
+        .map(
+          (testCase, index) => `
+      try {
+        const result = ${driver}('${testCase}');
+        results.push(result);
+      } catch (error) {
+        results.push({ case: ${index + 1}, input: "${testCase}", error: error.message });
+      }
+      `,
+        )
+        .join('\n')}
+
+      console.log(JSON.stringify(results));
+    `;
+    } else {
+      executionCode = `
       ${code}
 
       ${driver}  
@@ -235,6 +260,7 @@ print(res_)
 
       console.log(JSON.stringify(results));
     `;
+    }
 
     return new Promise((resolve, reject) => {
       const process = spawn('node', ['-e', executionCode]);

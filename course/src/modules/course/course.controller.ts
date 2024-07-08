@@ -33,4 +33,10 @@ export class CourseController {
        const {id}:any = payload;
         return this.courseService.publishCourse(id)
     }
+
+    @Get('/getInstroctorCourse/:id')
+    async getInstroctorCourse(@Param() param:string){
+        const {id}:any = param
+        return await this.courseService.getInstroctorCourse(id)
+    }
 }

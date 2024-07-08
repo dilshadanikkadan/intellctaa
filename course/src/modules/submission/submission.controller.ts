@@ -34,4 +34,12 @@ export class SubmissionController {
 
       return await this.submissionService.manageLike({userId,submissionId})
     }
+
+    @Get('/getAttendence/:id')
+    async getAttendence(@Param() param:string){
+     const {id}:any= param;
+ 
+     return await this.submissionService.getAttencence(id)
+ 
+    }
 }

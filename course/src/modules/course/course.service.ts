@@ -22,12 +22,20 @@ export class CourseService {
   }
 
   async publishCourse(id: string) {
-    return await this.courseModel.findByIdAndUpdate(id, {
-      $set: { isPublished: true, isRequested: true },
-    },{new:true});
+    return await this.courseModel.findByIdAndUpdate(
+      id,
+      {
+        $set: { isPublished: true, isRequested: true },
+      },
+      { new: true },
+    );
   }
 
-  async getAllPublishedCourses(){
-    return await this.courseModel.find({isPublished:true})
+  async getAllPublishedCourses() {
+    return await this.courseModel.find({ isPublished: true });
+  }
+
+  async getInstroctorCourse(id:any) {
+    return await this.courseModel.find({ instructor: id });
   }
 }
