@@ -126,19 +126,12 @@ export class CodeExecutionProcessor {
       .replace(/\[/g, '(')
       .replace(/\]/g, ')');
 
-    console.log('???????????????????????', testCases);
-    console.log('???????????????????????', pythonTestCases);
-    console.log('^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^', testCases[0]);
-    console.log(
-      '^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^',
-      testCases[0].startsWith(`"`),
-    );
+  
     const isTestArray_ = testCases[0].startsWith('[');
     const isTeststring = testCases[0].startsWith(`"`);
     const newTest = testCases.map((item) => item.replace(/"/g, ''));
-    console.log('isTesting string', isTeststring);
-    console.log('isTesting string', newTest);
-
+   
+   
     if (isTeststring) {
       return `
 ${code}
@@ -149,6 +142,7 @@ print(res_)
     `.trim();
     }
     if (isTestArray_) {
+
       return `
 ${code}
 res_=[]
