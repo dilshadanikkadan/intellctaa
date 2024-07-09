@@ -67,4 +67,28 @@ export const ForgotPasswordBatch = (data: any): any => {
     },
   ];
 };
+
+export const UserProfilePatchBatch = (data: any): any => {
+  return [
+    {
+      topic: Subjects.AuthService,
+      messages: [
+        {
+          key: AuthTopics.UserPrfilePatch,
+          value: JSON.stringify(data),
+        },
+      ],
+    },
+    {
+      topic: Subjects.CourseService,
+      messages: [
+        {
+          key: AuthTopics.UserPrfilePatch,
+          value: JSON.stringify(data),
+        },
+      ],
+    },
+
+  ];
+};
 export default new UserCreated(producer);

@@ -11,7 +11,7 @@ export const stripeSessionController = (dependencies: IDependencies) => {
       const stripe = new Stripe(config.secrets.stripe_key, {
         apiVersion: "2024-04-10",
       } as any);
-
+ 
       console.log("++++++++++++++++++++++++++++++++++++++++");
       console.log(req.body);
       console.log("++++++++++++++++++++++++++++++++++++++++");

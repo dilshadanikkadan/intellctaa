@@ -10,7 +10,8 @@ export const routes = (dependencies: IDependencies) => {
     creatUser,
     blockUser,
     getAllUsers,
-    instructorCreate
+    instructorCreate,
+    updateProfile
 
   } = controllers(dependencies);
 
@@ -20,6 +21,7 @@ export const routes = (dependencies: IDependencies) => {
   router.put("/blockUser", blockUser);
   router.get("/getAllUsers", getAllUsers);
   router.put("/createInstructor", instructorCreate);
+  router.put("/updateProfile", updateProfile);
 
   return router;
 };

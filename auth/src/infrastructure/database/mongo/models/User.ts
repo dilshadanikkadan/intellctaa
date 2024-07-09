@@ -1,6 +1,5 @@
 import { Schema, model } from "mongoose";
 import { UserEntity } from "@/domain/entities";
-// import { Password } from "@_lib/utils/services/password/password.service";
 import { Password } from "../../../../_lib/utils/services/password/password.service";
 
 const userSchema = new Schema(
@@ -31,6 +30,7 @@ const userSchema = new Schema(
     },
     profile: {
       type: String,
+      default:'/avt.png'
     },
     contact: {
       additionalEmail: {

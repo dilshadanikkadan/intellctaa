@@ -3,4 +3,5 @@ export interface IRepositories {
   blockUser: (data: any) => Promise<any>;
   getAllUser: (data: any) => Promise<any>;
   instructorCreate: (data: any) => Promise<any>;
+  updateProfile: (data: any) => Promise<any>;
 }
