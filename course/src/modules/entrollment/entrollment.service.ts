@@ -6,35 +6,48 @@ import { Enrollment } from 'src/databse/models/entrollment.model';
 
 @Injectable()
 export class EntrollmentService {
-    constructor(@InjectModel(Enrollment.name) private entrollmentModel:Model<Enrollment>){}
-    @OnEvent('entroll.saved')
-    async saveEntroll(payload){
-         const newEntroll = new this.entrollmentModel({
-            ...payload,
-         })
+  constructor(
+    @InjectModel(Enrollment.name) private entrollmentModel: Model<Enrollment>,
+  ) {}
+  @OnEvent('entroll.saved')
+  async saveEntroll(payload) {
+    const newEntroll = new this.entrollmentModel({
+      ...payload,
+    });
 
-       await  newEntroll.save()
+  
+    await newEntroll.save();
+  }
+
+  async getMyCourse(payload: { id: string; userId: string }) {
+    const { id, userId } = payload;
+    console.log('________________________________', payload);
+
+    const isEnrolled = await this.entrollmentModel.aggregate([
+      {
+        $match: {
+          $and: [{ userId: userId }, { courseId: id }],
+        },
+      },
+    ]);
+
+    if (isEnrolled.length === 0) {
+      throw new NotFoundException('Enrollment not found');
     }
 
-    async getMyCourse(payload: { id: string; userId: string }) {
-      const { id, userId } = payload;
-    
-      const isEnrolled = await this.entrollmentModel.aggregate([
+    return isEnrolled[0];
+  }
+
+    async updateProgress(payload: any) {
+      const { courseId, userId,lessonId } = payload;
+      
+      const update =await this.entrollmentModel.findOneAndUpdate(
+        { $and: [{ userId }, { courseId }] },
         {
-          $match: {
-            $and: [
-              { userId: userId },
-              { courseId: id}
-            ]
-          }
+          $addToSet:{ 'progress.completedLessons': lessonId }
         },
-   
-      ]);
-    
-      if (isEnrolled.length === 0) {
-        throw new NotFoundException('Enrollment not found');
-      }
-    
-      return isEnrolled[0]; 
+        { new: true },
+      );
+      return update;
     }
 }

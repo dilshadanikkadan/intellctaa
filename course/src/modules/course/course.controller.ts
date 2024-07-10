@@ -35,7 +35,7 @@ export class CourseController {
   @Get('/getInstroctorCourse/:id')
   async getInstroctorCourse(@Param() param: string) {
     const { id }: any = param;
-    return await this.courseService.getInstroctorCourse(id);
+    return await this.courseService.getInstructorCourse(id);
   }
 
   @Post('/updateCourse')

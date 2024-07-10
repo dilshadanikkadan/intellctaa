@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model, Types } from 'mongoose';
+import mongoose, { Model, Types } from 'mongoose';
 import { Course } from 'src/databse/models/course.model';
 import { courseAddDTO } from './dtos/course.add.dto';
 
@@ -18,7 +18,7 @@ export class CourseService {
   }
 
   async getSingleCourse(id: string) {
-    return await this.courseModel.findById(id);
+    return await this.courseModel.findById(id).populate('instructor');
   }
 
   async publishCourse(id: string) {
@@ -35,38 +35,46 @@ export class CourseService {
     return await this.courseModel.find({ isPublished: true });
   }
 
-  async getInstroctorCourse(id: any) {
-    return await this.courseModel.find({ instructor: id });
+  async getInstructorCourse(id: any) {
+    const objectId =new  mongoose.Types.ObjectId(id);
+    
+    const res = await this.courseModel.find({ instructor: objectId });
+    
+    // console.log('_______________', objectId);
+    // console.log(res);
+    
+    return res;    
   }
   async updateCourse(payload: any) {
     try {
       const { id, updatedCourse } = payload;
-  
-      const {
-        _id,
-        __v,
-        thumbnailPreview,
-        ...cleanedCourse
-      } = updatedCourse;
-  
-      if (Array.isArray(cleanedCourse.lessons) && cleanedCourse.lessons.length > 0) {
+
+      const { _id, __v, thumbnailPreview, ...cleanedCourse } = updatedCourse;
+
+      if (
+        Array.isArray(cleanedCourse.lessons) &&
+        cleanedCourse.lessons.length > 0
+      ) {
         cleanedCourse.lessons = cleanedCourse.lessons.flat();
       }
-  
-      if (cleanedCourse.instructor && typeof cleanedCourse.instructor === 'string') {
+
+      if (
+        cleanedCourse.instructor &&
+        typeof cleanedCourse.instructor === 'string'
+      ) {
         cleanedCourse.instructor = new Types.ObjectId(cleanedCourse.instructor);
       }
-  
+
       const updatedDoc = await this.courseModel.findByIdAndUpdate(
         id,
         { $set: cleanedCourse },
-        { new: true, runValidators: true }
+        { new: true, runValidators: true },
       );
-  
+
       if (!updatedDoc) {
         throw new Error('Course not found');
       }
-  
+
       return updatedDoc;
     } catch (error) {
       console.error('Error updating course:', error);
@@ -74,7 +82,7 @@ export class CourseService {
     }
   }
 
-  async rejectCourse(id:any){
-    return await this.courseModel.findByIdAndUpdate(id,{isRejected:true})
+  async rejectCourse(id: any) {
+    return await this.courseModel.findByIdAndUpdate(id, { isRejected: true });
   }
 }

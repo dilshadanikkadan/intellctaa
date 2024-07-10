@@ -38,7 +38,7 @@ export class Course {
   @Prop({type:String})
   title: string;
    
-  @Prop({type:String})
+  @Prop({ type: Types.ObjectId, ref: 'User', required: true })
   instructor:string
 
   @Prop()

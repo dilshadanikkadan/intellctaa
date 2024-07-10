@@ -34,6 +34,7 @@ export interface UserEntity {
   isInstructor?:boolean;
   refreshToken?:string;
   isAuth?:boolean;
+  profit:any;
   otp?: string;
   otpExp?: string;
   profession?: string;
