@@ -14,6 +14,12 @@ export class EntrollmentController {
 
   @Post('/updateProgress')
   async updateProgress(@Body() payload: any) {
-   return await this.entrollmentService.updateProgress(payload)
+    return await this.entrollmentService.updateProgress(payload);
+  }
+
+  @Get('/myEntrolledCourse/:id')
+  async course(@Param() param: string) {
+    const { id }:any = param;
+     return await this.entrollmentService.myEntrolledCourse(id)
   }
 }

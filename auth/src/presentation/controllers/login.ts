@@ -15,7 +15,7 @@ export const loginController = (dependencies: IDependencies) => {
         isAdmin: user.isAdmin,
         isInstructor: user?.isInstructor,
       });
-
+    
 
       res.cookie("token", token, {
         httpOnly: true,

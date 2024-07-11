@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { OnEvent } from '@nestjs/event-emitter';
 import { InjectModel } from '@nestjs/mongoose';
 import mongoose, { Model } from 'mongoose';
@@ -15,7 +19,6 @@ export class EntrollmentService {
       ...payload,
     });
 
-  
     await newEntroll.save();
   }
 
@@ -38,16 +41,25 @@ export class EntrollmentService {
     return isEnrolled[0];
   }
 
-    async updateProgress(payload: any) {
-      const { courseId, userId,lessonId } = payload;
-      
-      const update =await this.entrollmentModel.findOneAndUpdate(
-        { $and: [{ userId }, { courseId }] },
-        {
-          $addToSet:{ 'progress.completedLessons': lessonId }
-        },
-        { new: true },
-      );
-      return update;
-    }
+  async updateProgress(payload: any) {
+    const { courseId, userId, lessonId } = payload;
+
+    const update = await this.entrollmentModel.findOneAndUpdate(
+      { $and: [{ userId }, { courseId }] },
+      {
+        $addToSet: { 'progress.completedLessons': lessonId },
+      },
+      { new: true },
+    );
+    return update;
+  }
+
+  async myEntrolledCourse(userId: mongoose.Types.ObjectId) {
+    const query_MyEntrollment = await this.entrollmentModel
+      .find({ userId })
+      .populate('courseId');
+    if (!query_MyEntrollment)
+      throw new BadRequestException('Enntrollment not found ');
+    return query_MyEntrollment;
+  }
 }

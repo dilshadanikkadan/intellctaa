@@ -2,7 +2,10 @@ import { BadRequestError } from "@intellectaa/common";
 import { User } from "../../models/User";
 import jwt from "jsonwebtoken";
 import { config } from "@/_boot/config";
-import { generateAccessToken } from "@/_lib/utils/services/token/generateAccessToken";
+import {
+  generateAccessToken,
+  generateRefreshToken,
+} from "@/_lib/utils/services/token/generateAccessToken";
 export const refreshToken = async (payload: any) => {
   console.log("paload refreshstoken");
   const { userId } = payload;
@@ -13,14 +16,14 @@ export const refreshToken = async (payload: any) => {
   }
 
   jwt.verify(user.refreshToken, config.secrets.refresh_token);
-  const accessToken =await generateAccessToken({
+  const accessToken = await generateAccessToken({
     id: user._id,
     email: user.email,
     isAdmin: user.isAdmin,
     isInstructor: user?.isInstructor,
   });
 
-  const refreshToken =await generateAccessToken({
+  const refreshToken = await generateRefreshToken({
     id: user._id,
     email: user.email,
     isAdmin: user.isAdmin,

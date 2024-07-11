@@ -1,5 +1,4 @@
 import { User } from "../../models/User";
-
 export const pyamentUpdateAuth = async (payload) => {
   const { instructor, amount }: any = payload;
   try {

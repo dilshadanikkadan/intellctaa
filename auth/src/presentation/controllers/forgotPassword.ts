@@ -10,7 +10,7 @@ export const forgotPasswordController = (dependencies: IDependencies) => {
   return async (req: Request, res, next) => {
     try {
       console.log("otp resent", req.body);
-
+  
       const response = await forgotPasswordUseCase(dependencies).execute(
         req.body
       );

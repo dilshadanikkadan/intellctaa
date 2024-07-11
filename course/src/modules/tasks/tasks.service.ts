@@ -11,13 +11,13 @@ export class TasksService {
   async addTask(payload: TaskDto) {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
-
+ 
     const existingTask = await this.taskModel.findOne({
       createdAt: {
         $gte: today,
         $lt: new Date(today.getTime() + 24 * 60 * 60 * 1000)
       }
-    });
+    }); 
 
     if (existingTask) {
       throw new ConflictException('A task is already assigned for today');

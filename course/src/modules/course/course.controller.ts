@@ -1,11 +1,14 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { courseAddDTO } from './dtos/course.add.dto';
 import { CourseService } from './course.service';
+import { RequireAdminGuard } from 'src/guards/requireAdmin';
+import { RequireUserGuard } from 'src/guards/requireUser';
 
 @Controller('')
 export class CourseController {
   constructor(private courseService: CourseService) {}
   @Post('/addCourse')
+  @UseGuards(RequireUserGuard)
   addCourse(@Body() coursePayload: courseAddDTO) {
     return this.courseService.createCourse(coursePayload);
   }
@@ -13,9 +16,11 @@ export class CourseController {
   @Get('/getAllCourses')
   getAllCourses() {
     return this.courseService.allCourse();
-  }
+  } 
 
   @Get('/getAllPublishedCourses')
+  @UseGuards(RequireAdminGuard)
+
   getAllPublishedCourses() {
     return this.courseService.getAllPublishedCourses();
   }
@@ -39,6 +44,7 @@ export class CourseController {
   }
 
   @Post('/updateCourse')
+  @UseGuards(RequireUserGuard)
   async updateCourse(@Body() payload: any) {
     console.log('*********************', payload);
 
@@ -46,6 +52,7 @@ export class CourseController {
     return response;
   }
   @Post('/rejectCourse')
+  @UseGuards(RequireUserGuard)
   async rejectCourse(@Body() payload: any) {
     const { courseId } = payload;
     const response = await this.courseService.rejectCourse(courseId);

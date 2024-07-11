@@ -8,7 +8,10 @@ export const main = async () => {
     await server(app);
 
     await database();
-    await GlobalConsumer.listen();
+    await GlobalConsumer.listen().then(()=>{
+      console.log("👓 is listening");
+      
+    })
     process.on("SIGTERM", async () => {
       console.info("SIGTERM received");
       // stopConsumer();

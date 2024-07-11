@@ -79,6 +79,24 @@ export const paymentSuccessBatch = (data: any): any => {
         },
       ],
     },
+    {
+      topic: Subjects.UserService,
+      messages: [
+        {
+          key: PaymentTopics.PaymentSuccess,
+          value: JSON.stringify(data),
+        },
+      ],
+    },
+    {
+      topic: Subjects.AuthService,
+      messages: [
+        {
+          key: PaymentTopics.PaymentSuccess,
+          value: JSON.stringify(data),
+        },
+      ],
+    },
   ];
 };
 

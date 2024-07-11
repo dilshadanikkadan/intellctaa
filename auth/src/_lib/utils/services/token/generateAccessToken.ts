@@ -9,7 +9,7 @@ type UserPayload = {
   email: string;
   isInstructor: boolean | undefined;
 };
-
+  
 // export const generateAccessToken = (payload: UserPayload) => {
 //   return jwt.sign(payload, config.secrets.access_token,{expiresIn:'15m'});
 // };
@@ -19,7 +19,7 @@ export const generateAccessToken = async (payload: UserPayload) => {
   const token = await new SignJWT(payload)
     .setProtectedHeader({ alg: "HS256" })
     .setIssuedAt()
-    .setExpirationTime("30m")
+    .setExpirationTime("45m")
     .sign(JWT_SECRET);
 
   return token;
