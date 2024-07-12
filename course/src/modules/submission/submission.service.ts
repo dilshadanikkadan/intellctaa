@@ -84,4 +84,10 @@ export class SubmissionService {
      ])  
      return totalSubmission 
   }
+
+  async myAllSumbittedProblems(userId:string){
+    const query=  await this.submissionModel.find({userId}).select("problemName")
+
+    return query.map((x)=> x.problemName)
+  }
 }

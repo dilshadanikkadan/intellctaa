@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
 import { AppModule } from './../src/app.module';
-
+export const app = `http://localhost:3005/`;
 describe('AppController (e2e)', () => {
   let app: INestApplication;
 
@@ -22,3 +22,20 @@ describe('AppController (e2e)', () => {
       .expect('Hello World!');
   });
 });
+
+
+describe('course creation',()=>{
+  const course = {
+    title: '"java script"',
+    description:"string",
+    language:"english",
+    thumbnail:"https",
+    category:"cpp"
+  
+  };
+  it('Post',()=>{
+    return request(app).post('/addCourse')
+    .send(course)
+    .expect(201)
+  })
+})

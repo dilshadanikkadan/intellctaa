@@ -19,7 +19,6 @@ export class CourseController {
   } 
 
   @Get('/getAllPublishedCourses')
-  @UseGuards(RequireAdminGuard)
 
   getAllPublishedCourses() {
     return this.courseService.getAllPublishedCourses();

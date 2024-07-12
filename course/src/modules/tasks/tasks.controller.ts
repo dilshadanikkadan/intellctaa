@@ -13,7 +13,6 @@ constructor(private taskService:TasksService){}
     
 
    @Get('/getTodayTask')
-   @UseGuards(RequireAdminGuard)
   async getTodaysTask(){
       return await this.taskService.getTodaysTasks()
    }

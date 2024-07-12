@@ -26,7 +26,7 @@ export const generateAccessToken = async (payload: UserPayload) => {
 };
 
 export const generateRefreshToken = (payload: UserPayload) => {
-  return jwt.sign(payload, config.secrets.access_token, { expiresIn: "30m" });
+  return jwt.sign(payload, config.secrets.access_token, { expiresIn: "7d" });
 };
 
 export const generateForgotPasswordToken = (payload: any) => {

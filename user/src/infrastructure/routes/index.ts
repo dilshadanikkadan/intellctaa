@@ -18,7 +18,7 @@ export const routes = (dependencies: IDependencies) => {
   const router = Router();
 
   router.post("/signup", validateSignUP, validateRequest, creatUser);
-  router.put("/blockUser", blockUser);
+  router.put("/ ", blockUser);
   router.get("/getAllUsers", getAllUsers);
   router.put("/createInstructor", instructorCreate);
   router.put("/updateProfile", updateProfile);

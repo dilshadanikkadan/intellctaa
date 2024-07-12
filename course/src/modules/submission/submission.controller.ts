@@ -42,4 +42,11 @@ export class SubmissionController {
      return await this.submissionService.getAttencence(id)
  
     }
+
+    @Get('/myAllSumbittedProblems/:id')
+   async myAllSumbittedProblems(@Param() param:string){
+    const{id}:any= param;
+    return await this.submissionService.myAllSumbittedProblems(id)
+
+    }
 }
