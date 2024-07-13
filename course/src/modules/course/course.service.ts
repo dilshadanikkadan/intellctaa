@@ -36,14 +36,21 @@ export class CourseService {
   }
 
   async getInstructorCourse(id: any) {
-    const objectId =new  mongoose.Types.ObjectId(id);
+    const objectId =new mongoose.Types.ObjectId(id)
+    console.log(mongoose.isValidObjectId(id),"checking is valid or not");
     
-    const res = await this.courseModel.find({ instructor: objectId });
     
-    // console.log('_______________', objectId);
-    // console.log(res);
     
-    return res;    
+    const res = await this.courseModel.find({instructor:id});
+    console.log('_______________', objectId);
+    if(res.length ===0){
+      const newRes = await this.courseModel.find({instructor:objectId});
+
+      return newRes
+    }else{
+
+      return res;    
+    }
   }
   async updateCourse(payload: any) {
     try {
@@ -84,5 +91,10 @@ export class CourseService {
 
   async rejectCourse(id: any) {
     return await this.courseModel.findByIdAndUpdate(id, { isRejected: true });
+  }
+
+
+  async deleteCourse(id:string){
+    return await this.courseModel.findByIdAndDelete(id)
   }
 }

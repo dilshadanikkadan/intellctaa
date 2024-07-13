@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
 import { courseAddDTO } from './dtos/course.add.dto';
 import { CourseService } from './course.service';
 import { RequireAdminGuard } from 'src/guards/requireAdmin';
@@ -16,14 +24,13 @@ export class CourseController {
   @Get('/getAllCourses')
   getAllCourses() {
     return this.courseService.allCourse();
-  } 
+  }
 
   @Get('/getAllPublishedCourses')
-
   getAllPublishedCourses() {
     return this.courseService.getAllPublishedCourses();
   }
-
+         
   @Get('courses/:id')
   getSingleCourse(@Param() params: string) {
     const { id }: any = params;
@@ -56,5 +63,11 @@ export class CourseController {
     const { courseId } = payload;
     const response = await this.courseService.rejectCourse(courseId);
     return response;
+  }
+
+  @Post('/deleteCourse')
+  async deleteCourse(@Body() param: any) {
+    const { id } = param;
+    return await this.courseService.deleteCourse(id);
   }
 }

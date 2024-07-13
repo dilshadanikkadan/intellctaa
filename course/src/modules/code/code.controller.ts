@@ -15,6 +15,7 @@ import { join } from 'path';
 import { Response } from 'express';
 import { promises as fs, readdirSync } from 'fs';
 import { RequireAdminGuard } from 'src/guards/requireAdmin';
+import { RequireUserGuard } from 'src/guards/requireUser';
 const PROBLEMS_DIR = join(process.cwd(), '..', 'problems');
 @Controller('')
 export class CodeController {
@@ -124,7 +125,7 @@ export class CodeController {
     return this.codeService.testCode(outPut_exc, allExpectedOut, problemType);
   }
   @Get('/getAllQuestion')
-  @UseGuards(RequireAdminGuard)
+  @UseGuards(RequireUserGuard)
   getAllQuestion() {
     const allProblems = readdirSync(PROBLEMS_DIR);
     return allProblems.filter((x) => /\d/.test(x));
