@@ -1,12 +1,18 @@
 import { IUserCreatedUseCase } from "@/domain/useCases/ICreateUser";
 import { IDependencies } from "./IDependencies";
-import { ISessionStripeUseCase } from "@/domain/useCases/ISessionStripe";
-import { IWebHookUseCase } from "@/domain/useCases/IWebHookUseCase";
+import { IRoomCreatedUseCase } from "@/domain/useCases/IRoomCreatedUseCase";
+import { IMessageCreatedUseCase } from "@/domain/useCases/IMessageCreatedUseCase";
+import { IGetMessagesUseCase } from "@/domain/useCases/IGetMessagesUseCase";
+import { IGetMyMessagesUseCase } from "@/domain/useCases/IGetMyMessagesUseCase";
+
 
 
 
 export interface IUseCases {
   createUserUseCase: (dependencies: IDependencies) => IUserCreatedUseCase;
- stripeSessionUseCase: (dependencies: IDependencies) => ISessionStripeUseCase;
- webHookUseCase:(dependencies: IDependencies) => IWebHookUseCase;
+  createRoomUseCase: (dependencies: IDependencies) => IRoomCreatedUseCase;
+  createMessageUseCase: (dependencies: IDependencies) => IMessageCreatedUseCase;
+  getMessagesUseCase: (dependencies: IDependencies) => IGetMessagesUseCase;
+  getMyMessagesUseCase: (dependencies: IDependencies) => IGetMyMessagesUseCase;
+ 
 }

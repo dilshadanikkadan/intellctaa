@@ -24,7 +24,7 @@ app.use("/api/user", proxy("http://localhost:3004/"));
 app.use("/api/course", proxy("http://localhost:3005/"));
 app.use("/api/code", proxy("http://localhost:3006/"));
 app.use("/api/payment", proxy("http://localhost:3007/"));
-app.use("/cart", proxy("http://localhost:3003/"));
+app.use("/api/chat", proxy("http://localhost:3008/"));
 
 app.listen(PORT, () => {
   console.log(`The gateway is listening to the port ${PORT}`);

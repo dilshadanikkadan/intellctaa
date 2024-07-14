@@ -1,7 +1,6 @@
-import { Application } from "express";
 import { config } from "@/_boot/config";
 
-export default async (app: Application) => {
+export default async (app: any) => {
     app.listen(config.http.port, () => {
         console.log('786........✨✨✨');
         

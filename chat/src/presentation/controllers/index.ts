@@ -1,13 +1,19 @@
 import { IDependencies } from "@/application/interfaces/IDependencies";
 import { createUserController } from "./createUser";
-import { stripeSessionController } from "./stripeSession";
-import { webhookController } from "./webhook";
+import { createRoomController } from "./CreatRoom";
+import { createChatController } from "./CreateMessage";
+import { getMessagesController } from "./getMessages";
+import { getMYMessagesController } from "./getMyMessages";
+
 
 
 export const controllers = (dependencies: IDependencies) => {
     return {
         creatUser: createUserController(dependencies),
-         createSession:stripeSessionController(dependencies),
-         webHook:webhookController(dependencies)
+        createRoom:createRoomController(dependencies),
+        createChat:createChatController(dependencies),
+        getMessages:getMessagesController(dependencies),
+        getMyMessages:getMYMessagesController(dependencies),
+ 
     }
 };

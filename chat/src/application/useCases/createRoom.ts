@@ -1,12 +1,12 @@
 import { IDependencies } from "../interfaces/IDependencies";
 
-export const stripeSessionUseCase = (dependencies: IDependencies) => {
+export const createRoomUseCase = (dependencies: IDependencies) => {
   const {
-    repositories: { stripeSession },
+    repositories: { createRoom },
   } = dependencies;
   return {
     execute: async (data: any) => {
-      return await stripeSession(data);
+      return await createRoom(data);
     },
   };
 };
