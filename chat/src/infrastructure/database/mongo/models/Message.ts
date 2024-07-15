@@ -20,11 +20,17 @@ const messageSchema = new Schema(
       required: true,
     },
     description: {
-        type: String,
-      },
+      type: String,
+    },
+    replyTo: {
+      type: String,
+    },
+    replyMessage: {
+      type: String,
+    },
     typeMessage: {
       type: String,
-      enum: ["text", "image", "audio", "video", "file"],
+      enum: ["text", "image", "audio", "video", "file","reply"],
       default: "text",
     },
     read: {

@@ -11,6 +11,12 @@ const chatRoomSchema = new Schema(
         type:mongoose.Types.ObjectId,
         ref:"users"
     },
+    roomName:{
+     type:String
+    },
+    roomProfile:{
+      type:String
+     },
     partcipants: [],
 
     lastMessage: {
