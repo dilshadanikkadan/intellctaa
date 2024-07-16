@@ -38,6 +38,7 @@ export const getMyMessages = async (id: any): Promise<any> => {
         participantDetails: {
           _id: 1,
           username: 1,
+          profile: 1,
         },
       },
     },

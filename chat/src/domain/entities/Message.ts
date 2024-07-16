@@ -3,4 +3,5 @@ export interface IMessage{
    senderId:string;
    deleteForMe:Boolean;
    read:Boolean;
+   pinned:Boolean;
 }

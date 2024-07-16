@@ -16,7 +16,7 @@ export const stripeSessionController = (dependencies: IDependencies) => {
       console.log(req.body);
       console.log("++++++++++++++++++++++++++++++++++++++++");
 
-      const { courseTitle, courseThumbnail, courseMode,userId, courseId, amount }: any = req.body;
+      const { courseTitle, courseThumbnail, courseMode,userId, courseId, amount,instructor }: any = req.body;
 
       if (isNaN(amount)) {
         
@@ -52,6 +52,7 @@ export const stripeSessionController = (dependencies: IDependencies) => {
         sessionId: session.id,
         amount,
         courseMode,
+        instructor
       });
 
       res.status(200).json({

@@ -1,24 +1,30 @@
 import { Schema, model } from "mongoose";
 
-const sessionSchema = new Schema({
+const sessionSchema = new Schema(
+  {
     sessionId: {
-        type: String,
-        required: true
+      type: String,
+      required: true,
     },
     userId: {
-        type: Schema.Types.ObjectId,
-        required: true
+      type: Schema.Types.ObjectId,
+      required: true,
     },
     courseId: {
-        type: Schema.Types.ObjectId,
-        required: true
+      type: Schema.Types.ObjectId,
+      required: true,
     },
-    courseMode:{
-        type:String
+    instructor: {
+      type: String,
     },
-    amount:{
-        type:Number
-    }
-},{timestamps:true});
+    courseMode: {
+      type: String,
+    },
+    amount: {
+      type: Number,
+    },
+  },
+  { timestamps: true }
+);
 
 export const Session = model("sessions", sessionSchema);

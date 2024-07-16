@@ -4,7 +4,7 @@ import { KafkaConsumer, Subjects } from "@intellectaa/common";
 import { EachMessagePayload } from "kafkajs";
 
  class GlobalConsumer extends KafkaConsumer {
-    subject: Subjects = Subjects.UserService;
+    subject: Subjects = Subjects.ChatService;
     groupId = Subjects.UserCreated;
   
     constructor() {

@@ -1,17 +1,12 @@
-import {
-  AuthTopics,
-  KafkaProducer,
-  PaymentTopics,
-  Subjects,
-} from "@intellectaa/common";
+import { AuthTopics, ChatTopics, KafkaProducer, PaymentTopics, Subjects } from "@intellectaa/common";
 import { Producer } from "kafkajs";
-import { producer } from "..";
+import { producer } from "../consumer/global.consumer";
 
 export interface Event {
   subject: Subjects;
   data: any;
 }
-class UserCreated extends KafkaProducer<Event> {
+class CourseProducer extends KafkaProducer<Event> {
   constructor(producer: Producer) {
     super(producer);
   }
@@ -102,16 +97,22 @@ export const paymentSuccessBatch = (data: any): any => {
         },
       ],
     },
-    {
-      topic: Subjects.ChatService,
-      messages: [
-        {
-          key: PaymentTopics.PaymentSuccess,
-          value: JSON.stringify(data),
-        },
-      ],
-    },
   ];
 };
 
-export default new UserCreated(producer);
+
+export const ChatCreatedBatch = (data: any): any => {
+    return [
+      {
+        topic: Subjects.ChatService,
+        messages: [
+          {
+            key: ChatTopics.ChatCreated,
+            value: JSON.stringify(data),
+          },
+        ],
+      },
+    ];
+  };
+
+export const courseProducer = new CourseProducer(producer);

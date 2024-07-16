@@ -25,12 +25,16 @@ const messageSchema = new Schema(
     replyTo: {
       type: String,
     },
+    pinned: {
+      type: Boolean,
+      default: false,
+    },
     replyMessage: {
       type: String,
     },
     typeMessage: {
       type: String,
-      enum: ["text", "image", "audio", "video", "file","reply"],
+      enum: ["text", "image", "audio", "video", "file", "reply"],
       default: "text",
     },
     read: {

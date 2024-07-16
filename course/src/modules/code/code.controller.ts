@@ -38,7 +38,7 @@ export class CodeController {
       case 'javaScript':
         fileExt = 'js';
         break;
-      case 'python':
+      case 'python': 
         fileExt = 'py';
 
       default:

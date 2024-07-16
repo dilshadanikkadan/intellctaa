@@ -3,6 +3,7 @@ import { Server } from "http";
 import { Server as SocketIOServer, Socket } from "socket.io";
 import { messageSeen } from "../database/mongo/repositories/usesr/messageSeen";
 import { updateLastMessage } from "../database/mongo/repositories/usesr/updateLastMessage";
+import { pinMessage } from "../database/mongo/repositories/usesr/pinMessage";
 
 let onlineUsers = new Map<string, string>();
 let io: SocketIOServer;
@@ -73,15 +74,15 @@ export const sockerHandler = (server: Server) => {
               let socketId: any = onlineUsers.get(member);
               io.to(socketId).emit("recieve_msg", {
                 message,
-                senderId,
+                senderId, 
                 roomId,
-                read: true,
+                read: false,
                 typeMessage,
                 description, 
               });
-            }
+            } 
           }
-        }
+        } 
 
         await updateLastMessage({
           roomId,
@@ -90,8 +91,14 @@ export const sockerHandler = (server: Server) => {
         // console.log("______________________");
         // console.log(rooms);
       }
-    );
+    ); 
 
+    socket.on("pin_message", async (data) => {
+      console.log("_________________earched here", data);
+ 
+      await pinMessage(data.messageId);
+      io.to(data.roomId).emit("pinned_message", data);
+    });
     socket.on("join-room", async ({ roomId, id }) => {
       if (!rooms[roomId]) {
         rooms[roomId] = [];

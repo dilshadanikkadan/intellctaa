@@ -1,7 +1,7 @@
 import { KafkaConsumer, Subjects } from '@intellectaa/common';
 import { Injectable, OnModuleInit, OnModuleDestroy } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
-import { Kafka, EachMessagePayload } from 'kafkajs';
+import { Kafka, EachMessagePayload, Producer } from 'kafkajs';
 import { createSubscriber } from '..';
 
 const kafka = new Kafka({
@@ -12,7 +12,7 @@ const kafka = new Kafka({
 const consumer = kafka.consumer({
   groupId: 'caourse-group',
 });
-
+export const producer: Producer = kafka.producer();
 export class UserCreatedCon extends KafkaConsumer {
   subject: Subjects = Subjects.CourseService;
   groupId = Subjects.CourseService;

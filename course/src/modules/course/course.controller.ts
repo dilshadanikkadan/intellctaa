@@ -11,6 +11,10 @@ import { courseAddDTO } from './dtos/course.add.dto';
 import { CourseService } from './course.service';
 import { RequireAdminGuard } from 'src/guards/requireAdmin';
 import { RequireUserGuard } from 'src/guards/requireUser';
+import {
+  ChatCreatedBatch,
+  courseProducer,
+} from 'src/kafka/producer/base.producer';
 
 @Controller('')
 export class CourseController {
@@ -22,15 +26,17 @@ export class CourseController {
   }
 
   @Get('/getAllCourses')
-  getAllCourses() {
-    return this.courseService.allCourse();
+  public getAllCourses(): Promise<any> {
+    try {
+      return this.courseService.allCourse();
+    } catch (error) {}
   }
 
   @Get('/getAllPublishedCourses')
   getAllPublishedCourses() {
     return this.courseService.getAllPublishedCourses();
   }
-         
+
   @Get('courses/:id')
   getSingleCourse(@Param() params: string) {
     const { id }: any = params;
@@ -38,9 +44,25 @@ export class CourseController {
   }
 
   @Post('/publish')
-  publishCourse(@Body() payload: string) {
+  public async publishCourse(@Body() payload: string): Promise<any> {
     const { id }: any = payload;
-    return this.courseService.publishCourse(id);
+    try {
+      const course = await this.courseService.publishCourse(id);
+      const payload = {
+        roomCreater: course?._id,
+        partcipants: [course?.instructor],
+        lastMessage: '',
+        roomName: course?.title,
+        roomProfile: course?.thumbnail,
+      };
+      courseProducer.produceAll(
+        {
+          payload,
+        },
+        ChatCreatedBatch(payload),
+      );
+      return course;
+    } catch (error) {}
   }
 
   @Get('/getInstroctorCourse/:id')

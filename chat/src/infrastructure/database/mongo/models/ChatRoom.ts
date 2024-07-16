@@ -1,22 +1,21 @@
-import mongoose, { model, Schema } from "mongoose";
+import { model, Schema } from "mongoose";
 
 interface IChat {
   partcipants: [];
   lastMessage: any;
-  roomCreater:string
+  roomCreater: string;
 }
 const chatRoomSchema = new Schema(
   {
-    roomCreater:{
-        type:mongoose.Types.ObjectId,
-        ref:"users"
+    roomCreater: {
+      type: String,
     },
-    roomName:{
-     type:String
+    roomName: {
+      type: String,
     },
-    roomProfile:{
-      type:String
-     },
+    roomProfile: {
+      type: String,
+    },
     partcipants: [],
 
     lastMessage: {
