@@ -1,4 +1,3 @@
-
 import { validateSignUP } from "@/_lib/utils/services/validation/signup.validation";
 import { IDependencies } from "@/application/interfaces/IDependencies";
 import { controllers } from "@/presentation/controllers";
@@ -11,8 +10,8 @@ export const routes = (dependencies: IDependencies) => {
     blockUser,
     getAllUsers,
     instructorCreate,
-    updateProfile
-
+    updateProfile,
+    getAllInstructor,
   } = controllers(dependencies);
 
   const router = Router();
@@ -20,6 +19,7 @@ export const routes = (dependencies: IDependencies) => {
   router.post("/signup", validateSignUP, validateRequest, creatUser);
   router.put("/ ", blockUser);
   router.get("/getAllUsers", getAllUsers);
+  router.get("/getAllInstructor", getAllInstructor);
   router.put("/createInstructor", instructorCreate);
   router.put("/updateProfile", updateProfile);
 

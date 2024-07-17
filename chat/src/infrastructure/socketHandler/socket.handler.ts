@@ -11,7 +11,7 @@ let rooms = {};
 const addToOnline = (userId: string, socketId: string) => {
   onlineUsers.set(userId, socketId);
 };
-
+ 
 const removeFromOnline = (socketId: string) => {
   for (const [userId, userSocketId] of onlineUsers.entries()) {
     if (userSocketId === socketId) {
@@ -74,15 +74,15 @@ export const sockerHandler = (server: Server) => {
               let socketId: any = onlineUsers.get(member);
               io.to(socketId).emit("recieve_msg", {
                 message,
-                senderId, 
+                senderId,
                 roomId,
                 read: false,
                 typeMessage,
-                description, 
+                description,
               });
-            } 
+            }
           }
-        } 
+        }
 
         await updateLastMessage({
           roomId,
@@ -91,11 +91,32 @@ export const sockerHandler = (server: Server) => {
         // console.log("______________________");
         // console.log(rooms);
       }
-    ); 
+    );
+
+    socket.on("callStudent", (data) => {
+      let studentIdToCall = onlineUsers.get(data.studentToCall);
+      console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+      console.log(onlineUsers);
+      console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+      console.log(studentIdToCall);
+      console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+
+      io.to(studentIdToCall as any).emit("offer", {
+        signal: data.signalData,
+        fromCall:data.from
+      });
+    });
+
+    socket.on("answerCall", (data) => {
+      console.log("reched here awsome to see that");
+      console.log("data To :" + data.to);
+      let studentIdToCall = onlineUsers.get(data.to);
+      io.to(studentIdToCall!).emit("callAccepted", data.signal);
+    });
 
     socket.on("pin_message", async (data) => {
       console.log("_________________earched here", data);
- 
+
       await pinMessage(data.messageId);
       io.to(data.roomId).emit("pinned_message", data);
     });

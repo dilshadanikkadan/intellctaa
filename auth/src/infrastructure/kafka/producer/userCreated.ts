@@ -62,6 +62,15 @@ export const UserSavedBatch = (data: any): any => {
         },
       ],
     },
+    {
+      topic: Subjects.ChatService,
+      messages: [
+        {
+          key: AuthTopics.UseSaved,
+          value: JSON.stringify(data),
+        },
+      ],
+    },
   ];
 };
 export default new UserCreated(producer);

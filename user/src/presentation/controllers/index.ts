@@ -4,6 +4,7 @@ import { blockController } from "./blockUser";
 import { getAllUserController } from "./getAllUsers";
 import { instructorCreateController } from "./instructorCreate";
 import { updateProfileController } from "./updateProfile";
+import { getAllInstructorController } from "./getAllInstructor";
 
 export const controllers = (dependencies: IDependencies) => {
   return {
@@ -12,5 +13,7 @@ export const controllers = (dependencies: IDependencies) => {
     getAllUsers: getAllUserController(dependencies),
     instructorCreate: instructorCreateController(dependencies),
     updateProfile: updateProfileController(dependencies),
+    getAllInstructor: getAllInstructorController(dependencies),
+
   };
 };
