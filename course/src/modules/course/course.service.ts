@@ -13,8 +13,19 @@ export class CourseService {
     return newCourse.save();
   }
 
-  async allCourse() {
-    return await this.courseModel.find();
+  async allCourse(payload) {
+    const { _limit, _page } = payload;
+    console.log('____________________________________-', payload);
+
+    const limit = parseInt(_limit, 10) || 5;
+    const pageNumber = parseInt(_page, 10) || 1;
+    const skip = (pageNumber - 1) * limit;
+    const courses = await this.courseModel.find().skip(skip).limit(limit);
+    const totalCount = await this.courseModel.countDocuments();
+    return {
+      courses: courses,
+      totalCount: totalCount,
+    };
   }
 
   async getSingleCourse(id: string) {
@@ -31,25 +42,40 @@ export class CourseService {
     );
   }
 
-  async getAllPublishedCourses() {
-    return await this.courseModel.find({ isPublished: true });
+  async getAllPublishedCourses(payload) {
+    const { _search, _Category } = payload;
+    if (_search) {
+      const regex = new RegExp(_search, 'i');
+      return this.courseModel.find({
+        title: { $regex: regex },
+        isPublished: true,
+      });
+    } else if (_Category && _Category !== "All") {
+      console.log('___________________-');
+      console.log(_Category);
+      console.log('___________________-');
+
+      return await this.courseModel.find({
+        category: _Category,
+        isPublished: true,
+      });
+    } else {
+      return await this.courseModel.find({ isPublished: true });
+    }
   }
 
   async getInstructorCourse(id: any) {
-    const objectId =new mongoose.Types.ObjectId(id)
-    console.log(mongoose.isValidObjectId(id),"checking is valid or not");
-    
-    
-    
-    const res = await this.courseModel.find({instructor:id});
+    const objectId = new mongoose.Types.ObjectId(id);
+    console.log(mongoose.isValidObjectId(id), 'checking is valid or not');
+
+    const res = await this.courseModel.find({ instructor: id });
     console.log('_______________', objectId);
-    if(res.length ===0){
-      const newRes = await this.courseModel.find({instructor:objectId});
+    if (res.length === 0) {
+      const newRes = await this.courseModel.find({ instructor: objectId });
 
-      return newRes
-    }else{
-
-      return res;    
+      return newRes;
+    } else {
+      return res;
     }
   }
   async updateCourse(payload: any) {
@@ -93,8 +119,7 @@ export class CourseService {
     return await this.courseModel.findByIdAndUpdate(id, { isRejected: true });
   }
 
-
-  async deleteCourse(id:string){
-    return await this.courseModel.findByIdAndDelete(id)
+  async deleteCourse(id: string) {
+    return await this.courseModel.findByIdAndDelete(id);
   }
 }

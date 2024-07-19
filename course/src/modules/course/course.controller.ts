@@ -5,6 +5,8 @@ import {
   Get,
   Param,
   Post,
+  Query,
+  Req,
   UseGuards,
 } from '@nestjs/common';
 import { courseAddDTO } from './dtos/course.add.dto';
@@ -15,6 +17,8 @@ import {
   ChatCreatedBatch,
   courseProducer,
 } from 'src/kafka/producer/base.producer';
+import { Request } from 'express';
+import { GetAllCoursesQueryDto, GetAllPublishCoursesQueryDto } from './dtos/queury.dto';
 
 @Controller('')
 export class CourseController {
@@ -26,15 +30,20 @@ export class CourseController {
   }
 
   @Get('/getAllCourses')
-  public getAllCourses(): Promise<any> {
+  public getAllCourses(
+    @Query() query: GetAllCoursesQueryDto,
+    @Req() req: Request,
+  ): Promise<any> {
     try {
-      return this.courseService.allCourse();
-    } catch (error) {}
+      return this.courseService.allCourse(query);
+    } catch (error) {
+      throw error;
+    }
   }
 
   @Get('/getAllPublishedCourses')
-  getAllPublishedCourses() {
-    return this.courseService.getAllPublishedCourses();
+  getAllPublishedCourses(@Query() query: GetAllPublishCoursesQueryDto) {
+    return this.courseService.getAllPublishedCourses(query);
   }
 
   @Get('courses/:id')

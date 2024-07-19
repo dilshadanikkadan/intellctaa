@@ -4,6 +4,7 @@ interface IChat {
   partcipants: [];
   lastMessage: any;
   roomCreater: string;
+  unReadMessage: string;
 }
 const chatRoomSchema = new Schema(
   {
@@ -20,6 +21,14 @@ const chatRoomSchema = new Schema(
 
     lastMessage: {
       type: Schema.Types.Mixed,
+    },
+    unReadMessage:{
+      type:Array,
+      default:[]
+    },
+    read: {
+      type: Boolean,
+      default: false,
     },
   },
 

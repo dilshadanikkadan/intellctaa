@@ -4,6 +4,7 @@ import { Server as SocketIOServer, Socket } from "socket.io";
 import { messageSeen } from "../database/mongo/repositories/usesr/messageSeen";
 import { updateLastMessage } from "../database/mongo/repositories/usesr/updateLastMessage";
 import { pinMessage } from "../database/mongo/repositories/usesr/pinMessage";
+import { updateUnReadMessage } from "../database/mongo/repositories/usesr/updateDeleteUnread";
 
 let onlineUsers = new Map<string, string>();
 let io: SocketIOServer;
@@ -17,7 +18,7 @@ const removeFromOnline = (socketId: string) => {
     if (userSocketId === socketId) {
       onlineUsers.delete(userId);
       break;
-    }
+    } 
   }
 };
 
@@ -47,6 +48,7 @@ export const sockerHandler = (server: Server) => {
         partcipants,
         replyTo,
         replyMessage,
+        forWard
       }) => {
         if (rooms[roomId]?.length > 1) {
           console.log("___________room also send aslo send &");
@@ -55,11 +57,12 @@ export const sockerHandler = (server: Server) => {
             message,
             senderId,
             roomId,
-            read: true,
+            read: true, 
             typeMessage,
             description,
             replyTo,
             replyMessage,
+            forWard
           });
           // console.log("______________________ yes i done that");
 
@@ -79,8 +82,9 @@ export const sockerHandler = (server: Server) => {
                 read: false,
                 typeMessage,
                 description,
+                forWard
               });
-            }
+            } 
           }
         }
 
@@ -143,14 +147,15 @@ export const sockerHandler = (server: Server) => {
         console.log("Updated rooms:", rooms);
         io.emit("rooms", rooms);
         if (rooms[roomId]?.length > 1) {
-          io.to(roomId).emit("messsge_seen", { data: "msg seen" });
+          io.to(roomId).emit("messsge_seen", {roomId });
           await messageSeen(roomId);
         }
+        await updateUnReadMessage(roomId)
       }
-      socket.join(roomId);
+      socket.join(roomId); 
       // console.log(`User ${id} joined room ${roomId}`);
     });
-
+ 
     socket.on("typing", ({ roomId, typerId }) => {
       io.to(roomId).emit("typing_recieve", {
         typerId,

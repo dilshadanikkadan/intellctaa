@@ -5,7 +5,7 @@ export const updateLastMessage = async ({ roomId, message }): Promise<any> => {
 
     
     const msg = await ChatRoomSchema.findByIdAndUpdate(roomId, {
-      $set: { lastMessage: message },
+      $set: { lastMessage: message },$push:{unReadMessage:'.'},
     },{new:true});
     return msg;
   } catch (error) {}

@@ -34,6 +34,7 @@ export const getMyMessages = async (id: any): Promise<any> => {
         updatedAt: 1,
         lastMessage: 1,
         roomName: 1,
+        unReadMessage: 1,
         roomProfile: 1,
         participantDetails: {
           _id: 1,
