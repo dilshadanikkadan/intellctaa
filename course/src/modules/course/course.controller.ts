@@ -18,7 +18,10 @@ import {
   courseProducer,
 } from 'src/kafka/producer/base.producer';
 import { Request } from 'express';
-import { GetAllCoursesQueryDto, GetAllPublishCoursesQueryDto } from './dtos/queury.dto';
+import {
+  GetAllCoursesQueryDto,
+  GetAllPublishCoursesQueryDto,
+} from './dtos/queury.dto';
 
 @Controller('')
 export class CourseController {
@@ -81,7 +84,7 @@ export class CourseController {
   }
 
   @Post('/updateCourse')
-  @UseGuards(RequireUserGuard)
+  // @UseGuards(RequireUserGuard)
   async updateCourse(@Body() payload: any) {
     console.log('*********************', payload);
 
