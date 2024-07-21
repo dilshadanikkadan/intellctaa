@@ -10,6 +10,7 @@ export const refreshToken = async (payload: any) => {
   console.log("paload refreshstoken");
   const { userId } = payload;
   const user = await User.findById(userId);
+  console.log(user);
 
   if (!user || !user.refreshToken) {
     throw new BadRequestError("Invalid user session");

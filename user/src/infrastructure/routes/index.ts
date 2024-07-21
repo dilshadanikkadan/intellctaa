@@ -1,7 +1,11 @@
 import { validateSignUP } from "@/_lib/utils/services/validation/signup.validation";
 import { IDependencies } from "@/application/interfaces/IDependencies";
 import { controllers } from "@/presentation/controllers";
-import { validateRequest } from "@intellectaa/common";
+import {
+  requireAdmin,
+  requireUser,
+  validateRequest,
+} from "@intellectaa/common";
 import { Router } from "express";
 
 export const routes = (dependencies: IDependencies) => {
@@ -18,10 +22,10 @@ export const routes = (dependencies: IDependencies) => {
 
   router.post("/signup", validateSignUP, validateRequest, creatUser);
   router.put("/ ", blockUser);
-  router.get("/getAllUsers", getAllUsers);
-  router.get("/getAllInstructor", getAllInstructor);
-  router.put("/createInstructor", instructorCreate);
-  router.put("/updateProfile", updateProfile);
+  router.get("/getAllUsers",requireAdmin, getAllUsers);
+  router.get("/getAllInstructor", requireAdmin, getAllInstructor);
+  router.put("/createInstructor", requireUser, instructorCreate);
+  router.put("/updateProfile", requireUser, updateProfile);
 
-  return router;
+  return router; 
 };

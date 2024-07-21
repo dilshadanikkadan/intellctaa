@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Body,
   Controller,
   Delete,
@@ -22,6 +23,7 @@ import {
   GetAllCoursesQueryDto,
   GetAllPublishCoursesQueryDto,
 } from './dtos/queury.dto';
+import { TOBE } from 'src/services/constants/Tobe';
 
 @Controller('')
 export class CourseController {
@@ -29,14 +31,18 @@ export class CourseController {
   @Post('/addCourse')
   @UseGuards(RequireUserGuard)
   addCourse(@Body() coursePayload: courseAddDTO) {
-    return this.courseService.createCourse(coursePayload);
+    try {
+      return this.courseService.createCourse(coursePayload);
+    } catch (error) {
+      throw new BadRequestException(error);
+    }
   }
 
   @Get('/getAllCourses')
   public getAllCourses(
     @Query() query: GetAllCoursesQueryDto,
     @Req() req: Request,
-  ): Promise<any> {
+  ): Promise<TOBE> {
     try {
       return this.courseService.allCourse(query);
     } catch (error) {
@@ -46,18 +52,27 @@ export class CourseController {
 
   @Get('/getAllPublishedCourses')
   getAllPublishedCourses(@Query() query: GetAllPublishCoursesQueryDto) {
-    return this.courseService.getAllPublishedCourses(query);
+    try {
+      return this.courseService.getAllPublishedCourses(query);
+    } catch (error) {
+      throw new BadRequestException(error);
+    }
   }
 
   @Get('courses/:id')
   getSingleCourse(@Param() params: string) {
-    const { id }: any = params;
-    return this.courseService.getSingleCourse(id);
+    try {
+      const { id }: TOBE = params;
+      return this.courseService.getSingleCourse(id);
+    } catch (error) {
+      throw new BadRequestException(error);
+    }
   }
 
   @Post('/publish')
-  public async publishCourse(@Body() payload: string): Promise<any> {
-    const { id }: any = payload;
+  @UseGuards(RequireUserGuard)
+  public async publishCourse(@Body() payload: string): Promise<TOBE> {
+    const { id }: TOBE = payload;
     try {
       const course = await this.courseService.publishCourse(id);
       const payload = {
@@ -78,30 +93,47 @@ export class CourseController {
   }
 
   @Get('/getInstroctorCourse/:id')
-  async getInstroctorCourse(@Param() param: string) {
-    const { id }: any = param;
-    return await this.courseService.getInstructorCourse(id);
+  public async getInstroctorCourse(@Param() param: string) {
+    try {
+      const { id }: TOBE = param;
+      return await this.courseService.getInstructorCourse(id);
+    } catch (error) {
+      throw new BadRequestException(error);
+    }
   }
 
   @Post('/updateCourse')
-  // @UseGuards(RequireUserGuard)
-  async updateCourse(@Body() payload: any) {
+  @UseGuards(RequireUserGuard)
+  public async updateCourse(@Body() payload: TOBE) {
     console.log('*********************', payload);
-
-    const response = await this.courseService.updateCourse(payload);
-    return response;
+    try {
+      const response = await this.courseService.updateCourse(payload);
+      return response;
+    } catch (error) {
+      throw new BadRequestException(error);
+    }
   }
+
   @Post('/rejectCourse')
   @UseGuards(RequireUserGuard)
-  async rejectCourse(@Body() payload: any) {
-    const { courseId } = payload;
-    const response = await this.courseService.rejectCourse(courseId);
-    return response;
+  public async rejectCourse(@Body() payload: TOBE) {
+    try {
+      const { courseId } = payload;
+      const response = await this.courseService.rejectCourse(courseId);
+      return response;
+    } catch (error) {
+      throw new BadRequestException(error);
+    }
   }
 
   @Post('/deleteCourse')
-  async deleteCourse(@Body() param: any) {
-    const { id } = param;
-    return await this.courseService.deleteCourse(id);
+  @UseGuards(RequireUserGuard)
+  async deleteCourse(@Body() param: TOBE) {
+    try {
+      const { id } = param;
+      return await this.courseService.deleteCourse(id);
+    } catch (error) {
+      throw new BadRequestException(error);
+    }
   }
 }

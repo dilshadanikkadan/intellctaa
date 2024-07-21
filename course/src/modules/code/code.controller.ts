@@ -1,5 +1,5 @@
 import {
-
+  BadRequestException,
   Body,
   Controller,
   Get,
@@ -38,7 +38,7 @@ export class CodeController {
       case 'javaScript':
         fileExt = 'js';
         break;
-      case 'python': 
+      case 'python':
         fileExt = 'py';
 
       default:
@@ -74,55 +74,59 @@ export class CodeController {
   }
 
   @Post('/codeExcute')
-  async excute(@Body() payload: codeExcuteDTO) {
-    const { code, question, language, problemType } = payload;
+  public async excute(@Body() payload: codeExcuteDTO) {
+    try {
+      const { code, question, language, problemType } = payload;
 
-    let fileExt;
-    console.log('#####################)))', question);
+      let fileExt;
+      console.log('#####################)))', question);
 
-    switch (language) {
-      case 'javaScript':
-        fileExt = 'js';
-        break;
-      case 'python':
-        fileExt = 'py';
+      switch (language) {
+        case 'javaScript':
+          fileExt = 'js';
+          break;
+        case 'python':
+          fileExt = 'py';
 
-      default:
-        fileExt = 'py';
+        default:
+          fileExt = 'py';
+      }
+      const basePath_Question = join(
+        PROBLEMS_DIR,
+        question,
+        'languages',
+        language,
+      );
+
+      const [driver, testCases, expectedOut] = await Promise.all([
+        this.readFile(basePath_Question, `driver.${fileExt}`),
+        this.readFile(basePath_Question, 'test.case.txt'),
+        this.readFile(basePath_Question, 'output.txt'),
+      ]);
+
+      const allTestCases = testCases.split('__').map((test) => test.trim());
+      const allExpectedOut = expectedOut.split('__').map((x) => x.trim());
+      const runCode = `
+      ${code} 
+      `;
+
+      const outPut_exc = await this.codeService.codeRequestApi(
+        runCode,
+        allTestCases,
+        driver,
+        language,
+      );
+      console.log(
+        '____________________________________________________________________**',
+      );
+      console.log(outPut_exc);
+      console.log(
+        '____________________________________________________________________**',
+      );
+      return this.codeService.testCode(outPut_exc, allExpectedOut, problemType);
+    } catch (error) {
+      throw new BadRequestException(error)
     }
-    const basePath_Question = join(
-      PROBLEMS_DIR,
-      question,
-      'languages',
-      language,
-    );
-
-    const [driver, testCases, expectedOut] = await Promise.all([
-      this.readFile(basePath_Question, `driver.${fileExt}`),
-      this.readFile(basePath_Question, 'test.case.txt'),
-      this.readFile(basePath_Question, 'output.txt'),
-    ]);
-
-    const allTestCases = testCases.split('__').map((test) => test.trim());
-    const allExpectedOut = expectedOut.split('__').map((x) => x.trim());
-    const runCode = `
-    ${code} 
-    `;
-
-    const outPut_exc = await this.codeService.codeRequestApi(
-      runCode,
-      allTestCases,
-      driver,
-      language,
-    );
-    console.log(
-      '____________________________________________________________________**',
-    );
-    console.log(outPut_exc);
-    console.log(
-      '____________________________________________________________________**',
-    );
-    return this.codeService.testCode(outPut_exc, allExpectedOut, problemType);
   }
   @Get('/getAllQuestion')
   @UseGuards(RequireUserGuard)

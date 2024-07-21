@@ -3,7 +3,10 @@ import { Request, Response } from "express";
 import { IDependencies } from "@/application/interfaces/IDependencies";
 import { OAuth2Client } from "google-auth-library";
 import { config } from "@/_boot/config";
-import { generateAccessToken, generateRefreshToken } from "@/_lib/utils/services/token/generateAccessToken";
+import {
+  generateAccessToken,
+  generateRefreshToken,
+} from "@/_lib/utils/services/token/generateAccessToken";
 const client = new OAuth2Client(config.secrets.google_cleint_id);
 export const googleSignUpController = (dependencies: IDependencies) => {
   const {
@@ -24,10 +27,9 @@ export const googleSignUpController = (dependencies: IDependencies) => {
         email,
         name,
         picture,
-      }); 
+      });
 
-      
-      const token =await generateAccessToken({
+      const token = await generateAccessToken({
         id: user._id,
         email: user.email,
         isAdmin: user.isAdmin,
@@ -40,9 +42,11 @@ export const googleSignUpController = (dependencies: IDependencies) => {
         isAdmin: user.isAdmin,
         isInstructor: user?.isInstructor,
       });
-      res.cookie("token",token,{httpOnly: true})
-      res.cookie("session_id",user?._id,{httpOnly: true})
-      return res.json(user)
+      user.refreshToken = refreshToken;
+      await user.save();
+      res.cookie("token", token, { httpOnly: true });
+      res.cookie("session_id", user?._id, { httpOnly: true });
+      return res.json(user);
       console.log(user);
     } catch (error) {
       next(error);

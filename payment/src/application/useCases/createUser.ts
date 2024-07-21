@@ -1,3 +1,4 @@
+import { TOBE } from "@/_lib/constants/Tobe";
 import { IDependencies } from "../interfaces/IDependencies";
 
 export const createUserUseCase = (dependencies: IDependencies) => {
@@ -5,7 +6,7 @@ export const createUserUseCase = (dependencies: IDependencies) => {
     repositories: { createUser },
   } = dependencies;
   return {
-    execute: async (data: any) => {
+    execute: async (data: TOBE) => {
       return await createUser(data);
     },
   };

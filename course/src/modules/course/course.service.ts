@@ -43,24 +43,43 @@ export class CourseService {
   }
 
   async getAllPublishedCourses(payload) {
-    const { _search, _Category } = payload;
+    const { _search, _Category, _limit, _page } = payload;
+
+    const limit = parseInt(_limit, 10) || 5;
+    const pageNumber = parseInt(_page, 10) || 1;
+    const skip = (pageNumber - 1) * limit;
     if (_search) {
       const regex = new RegExp(_search, 'i');
-      return this.courseModel.find({
+      const courses = await this.courseModel.find({
         title: { $regex: regex },
         isPublished: true,
       });
-    } else if (_Category && _Category !== "All") {
+      return {
+        courses: courses,
+      };
+    } else if (_Category && _Category !== 'All') {
       console.log('___________________-');
       console.log(_Category);
       console.log('___________________-');
 
-      return await this.courseModel.find({
+      const courses = await this.courseModel.find({
         category: _Category,
         isPublished: true,
       });
+      return {
+        courses: courses,
+      };
     } else {
-      return await this.courseModel.find({ isPublished: true });
+      const courses = await this.courseModel
+        .find({ isPublished: true })
+        .skip(skip)
+        .limit(limit);
+      const totalCount = (await this.courseModel.find({ isPublished: true }))
+        .length;
+      return {
+        courses: courses,
+        totalCount: totalCount,
+      };
     }
   }
 

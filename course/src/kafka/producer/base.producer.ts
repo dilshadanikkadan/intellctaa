@@ -1,10 +1,11 @@
 import { AuthTopics, ChatTopics, KafkaProducer, PaymentTopics, Subjects } from "@intellectaa/common";
 import { Producer } from "kafkajs";
 import { producer } from "../consumer/global.consumer";
+import { TOBE } from "src/services/constants/Tobe";
 
 export interface Event {
   subject: Subjects;
-  data: any;
+  data: TOBE;
 }
 class CourseProducer extends KafkaProducer<Event> {
   constructor(producer: Producer) {
@@ -13,7 +14,7 @@ class CourseProducer extends KafkaProducer<Event> {
   subject: Subjects.UserCreated = Subjects.UserCreated;
 }
 
-export const UserBatchMessages = (data: any): any => {
+export const UserBatchMessages = (data: TOBE): TOBE => {
   return [
     {
       topic: Subjects.NotificationService,
@@ -27,7 +28,7 @@ export const UserBatchMessages = (data: any): any => {
   ];
 };
 
-export const UserBlockBatch = (data: any): any => {
+export const UserBlockBatch = (data: TOBE): TOBE => {
   return [
     {
       topic: Subjects.AuthService,
@@ -41,7 +42,7 @@ export const UserBlockBatch = (data: any): any => {
   ];
 };
 
-export const InstructorCreateBatch = (data: any): any => {
+export const InstructorCreateBatch = (data: TOBE): TOBE => {
   return [
     {
       topic: Subjects.AuthService,
@@ -54,7 +55,7 @@ export const InstructorCreateBatch = (data: any): any => {
     },
   ];
 };
-export const ForgotPasswordBatch = (data: any): any => {
+export const ForgotPasswordBatch = (data: TOBE): TOBE => {
   return [
     {
       topic: Subjects.NotificationService,
@@ -68,7 +69,7 @@ export const ForgotPasswordBatch = (data: any): any => {
   ];
 };
 
-export const paymentSuccessBatch = (data: any): any => {
+export const paymentSuccessBatch = (data: TOBE): TOBE => {
   return [
     {
       topic: Subjects.CourseService,
@@ -101,7 +102,7 @@ export const paymentSuccessBatch = (data: any): any => {
 };
 
 
-export const ChatCreatedBatch = (data: any): any => {
+export const ChatCreatedBatch = (data: TOBE): TOBE => {
     return [
       {
         topic: Subjects.ChatService,

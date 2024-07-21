@@ -111,6 +111,14 @@ export const sockerHandler = (server: Server) => {
       });
     });
 
+    socket.on("endCall", (data) => {
+      console.log("End call request received", data);
+      let recipientSocketId = onlineUsers.get(data.to);
+      if (recipientSocketId) {
+        io.to(recipientSocketId).emit("endCall", { from: socket.id });
+      }
+    });
+
     socket.on("answerCall", (data) => {
       console.log("reched here awsome to see that");
       console.log("data To :" + data.to);

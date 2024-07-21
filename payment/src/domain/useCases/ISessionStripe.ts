@@ -1,4 +1,5 @@
+import { TOBE } from "@/_lib/constants/Tobe";
 
 export interface ISessionStripeUseCase{
-    execute(data: any):Promise<any>;
+    execute(data: TOBE):Promise<TOBE>;
 }

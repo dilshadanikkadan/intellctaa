@@ -1,4 +1,6 @@
+import { TOBE } from "@/_lib/constants/Tobe";
+
 export interface IForgotPasswordUseCase {
-  execute(data: any): Promise<any>;
+  execute(data: TOBE): Promise<TOBE>;
   
 }
