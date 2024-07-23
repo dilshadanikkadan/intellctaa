@@ -14,7 +14,7 @@ export class ExcutionController {
   constructor(private readonly executionService: ExcutionService) {}
 
   @Post()
-  @UseGuards(RequireUserGuard)
+  // @UseGuards(RequireUserGuard)
   public async excute(@Body() codeExcuteDto: CodeEXcuteDTO) {
     const { code, testCases, driver, language }: any = codeExcuteDto;
 

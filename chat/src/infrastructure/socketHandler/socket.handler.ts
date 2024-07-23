@@ -131,7 +131,7 @@ export const sockerHandler = (server: Server) => {
 
       await pinMessage(data.messageId);
       io.to(data.roomId).emit("pinned_message", data);
-    });
+    }); 
     socket.on("join-room", async ({ roomId, id }) => {
       if (!rooms[roomId]) {
         rooms[roomId] = [];

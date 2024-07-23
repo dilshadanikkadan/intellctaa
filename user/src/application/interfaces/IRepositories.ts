@@ -5,4 +5,6 @@ export interface IRepositories {
   instructorCreate: (data: any) => Promise<any>;
   updateProfile: (data: any) => Promise<any>;
   getAllInstructor: (data: any) => Promise<any>;
+  userStatics: (data: any) => Promise<any>;
+  instructorStatics: (data: any) => Promise<any>;
 }

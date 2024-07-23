@@ -43,7 +43,7 @@ export class CourseService {
   }
 
   async getAllPublishedCourses(payload) {
-    const { _search, _Category, _limit, _page } = payload;
+    const { _search, _Category, _limit, _page, language } = payload;
 
     const limit = parseInt(_limit, 10) || 5;
     const pageNumber = parseInt(_page, 10) || 1;
@@ -52,6 +52,14 @@ export class CourseService {
       const regex = new RegExp(_search, 'i');
       const courses = await this.courseModel.find({
         title: { $regex: regex },
+        isPublished: true,
+      });
+      return {
+        courses: courses,
+      };
+    } else if (language && language !== 'All') {
+      const courses = await this.courseModel.find({
+        language: language,
         isPublished: true,
       });
       return {

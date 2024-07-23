@@ -2,7 +2,6 @@ import { User } from "../../models/User";
 
 export const getAllUser = async (payload: any) => {
   const { _limit, _page } = payload;
-  console.log("____________________________________-",payload);
   
   const limit = parseInt(_limit, 10) || 5;
   const pageNumber = parseInt(_page, 10) || 1; 

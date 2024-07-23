@@ -16,16 +16,20 @@ export const routes = (dependencies: IDependencies) => {
     instructorCreate,
     updateProfile,
     getAllInstructor,
+    userStatics,
+    instructorStatics,
   } = controllers(dependencies);
 
   const router = Router();
 
   router.post("/signup", validateSignUP, validateRequest, creatUser);
   router.put("/ ", blockUser);
-  router.get("/getAllUsers",requireAdmin, getAllUsers);
+  router.get("/getAllUsers", requireAdmin, getAllUsers);
   router.get("/getAllInstructor", requireAdmin, getAllInstructor);
+  router.get("/userStatics", userStatics);
+  router.get("/instructorStatics", instructorStatics);
   router.put("/createInstructor", requireUser, instructorCreate);
   router.put("/updateProfile", requireUser, updateProfile);
 
-  return router; 
+  return router;
 };
