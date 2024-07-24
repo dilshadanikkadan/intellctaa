@@ -11,6 +11,7 @@ import { UserModule } from './modules/user/user.module';
 import { EntrollmentModule } from './modules/entrollment/entrollment.module';
 import { SubmissionModule } from './modules/submission/submission.module';
 import { TasksModule } from './modules/tasks/tasks.module';
+import { CategoryModule } from './modules/category/category.module';
 
 @Module({
   imports: [
@@ -19,7 +20,7 @@ import { TasksModule } from './modules/tasks/tasks.module';
     EmailModule,
     EventEmitterModule.forRoot(),
     CodeModule, 
-    CourseModule, UserModule, EntrollmentModule, SubmissionModule, TasksModule,
+    CourseModule, UserModule, EntrollmentModule, SubmissionModule, TasksModule, CategoryModule,
   ],
   controllers: [AppController],
   providers: [AppService],

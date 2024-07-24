@@ -52,4 +52,22 @@ export class EntrollmentController {
       throw new BadRequestException(error);
     }
   }
+
+  @Get('/getEntrollAnalatytics/')
+  public async getEntrollAnalatytics() {
+    try {
+      return await this.entrollmentService.getEntrollAnalatytics();
+    } catch (error) {
+      throw new BadRequestException(error);
+    }
+  }
+  @Get('/getInstructorOwnAnalytics/:id')
+  public async getInstructorOwnAnalytics(@Param() param: string) {
+    try {
+      const { id }: TOBE = param;
+      return await this.entrollmentService.getInstructorOwnAnalytics(id);
+    } catch (error) {
+      throw new BadRequestException(error);
+    }
+  }
 }
