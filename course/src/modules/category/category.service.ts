@@ -21,7 +21,7 @@ export class CategoryService {
   async getAllCategory(): Promise<any> {
     return await this.courseModel.find();
   }
-
+//
   async deleteCategory(id: string): Promise<any> {
     return await this.courseModel.findByIdAndDelete(id);
   }
