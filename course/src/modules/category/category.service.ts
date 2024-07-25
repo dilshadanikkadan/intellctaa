@@ -11,21 +11,22 @@ export class CategoryService {
     @InjectModel(Category.name) private courseModel: Model<Category>,
   ) {}
 
-  async createCategory(payload: categoryDTO): Promise<any> {
+  async createCategory(payload: categoryDTO): Promise<TOBE> {
     const newCategory = new this.courseModel({
       ...payload,
     });
     return await newCategory.save();
   }
 
-  async getAllCategory(): Promise<any> {
+  async getAllCategory(): Promise<TOBE> {
     return await this.courseModel.find();
   }
-//
-  async deleteCategory(id: string): Promise<any> {
+
+  async deleteCategory(id: string): Promise<TOBE> {
     return await this.courseModel.findByIdAndDelete(id);
   }
-  async updateCategory(payload: TOBE): Promise<any> {
+  
+  async updateCategory(payload: TOBE): Promise<TOBE> {
     return await this.courseModel.findByIdAndUpdate(payload.id, {
       $set: {
         ...payload,

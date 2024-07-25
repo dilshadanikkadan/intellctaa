@@ -70,4 +70,14 @@ export class EntrollmentController {
       throw new BadRequestException(error);
     }
   }
+
+  @Get('getInstructorTrendCourse/:id')
+  public async getInstructorTrendCourse(@Param() param: string) {
+    try {
+      const { id }: TOBE = param;
+      return await this.entrollmentService.getInstructorTrendCourse(id);
+    } catch (error) {
+      throw new BadRequestException(error);
+    }
+  }
 }

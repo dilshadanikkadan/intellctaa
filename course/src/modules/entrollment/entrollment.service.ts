@@ -151,4 +151,47 @@ export class EntrollmentService {
     ]);
     return data;
   }
+
+  async getInstructorTrendCourse(id: string): Promise<any> {
+    const instructorId = new mongoose.Types.ObjectId(id);
+    const data = await this.entrollmentModel.aggregate([
+      {
+        $lookup: {
+          from: 'courses',
+          let: { courseId: { $toObjectId: '$courseId' } },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $and: [
+                    { $eq: ['$_id', '$$courseId'] },
+                    { $eq: ['$instructor', instructorId] },
+                  ],
+                },
+              },
+            },
+          ],
+          as: 'coursesData',
+        },
+      },
+      {
+        $unwind: '$coursesData',
+      },
+      {
+        $group: {
+          _id: '$coursesData._id',
+          courseTitle: { $first: '$coursesData' },
+          enrollmentCount: { $sum: 1 },
+          totalAmount: { $sum: '$amount' },
+        },
+      },
+      {
+        $sort: { enrollmentCount: -1 },
+      },
+      {
+        $limit: 5,
+      },
+    ]);
+    return data;
+  }
 }
