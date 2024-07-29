@@ -80,4 +80,12 @@ export class EntrollmentController {
       throw new BadRequestException(error);
     }
   }
+  @Get('getTrendingCourses')
+  public async getTrendingCourses() {
+    try {
+      return await this.entrollmentService.getTrendingCourses();
+    } catch (error) {
+      throw new BadRequestException(error);
+    }
+  }
 }

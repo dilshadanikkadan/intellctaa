@@ -12,7 +12,7 @@ let rooms = {};
 const addToOnline = (userId: string, socketId: string) => {
   onlineUsers.set(userId, socketId);
 };
- 
+  
 const removeFromOnline = (socketId: string) => {
   for (const [userId, userSocketId] of onlineUsers.entries()) {
     if (userSocketId === socketId) {

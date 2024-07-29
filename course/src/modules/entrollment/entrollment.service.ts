@@ -194,4 +194,42 @@ export class EntrollmentService {
     ]);
     return data;
   }
+  async getTrendingCourses(): Promise<TOBE> {
+    const data = await this.entrollmentModel.aggregate([
+      {
+        $lookup: {
+          from: 'courses',
+          let: { courseId: { $toObjectId: '$courseId' } },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $and: [{ $eq: ['$_id', '$$courseId'] }],
+                },
+              },
+            },
+          ],
+          as: 'coursesData',
+        },
+      },
+      {
+        $unwind: '$coursesData',
+      },
+      {
+        $group: {
+          _id: '$coursesData._id',
+          coursesData: { $first: '$coursesData' },
+          enrollmentCount: { $sum: 1 },
+          totalAmount: { $sum: '$amount' },
+        },
+      },
+      {
+        $sort: { enrollmentCount: -1 },
+      },
+      {
+        $limit: 4,
+      },
+    ]);
+    return data;
+  }
 }

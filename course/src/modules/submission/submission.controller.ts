@@ -98,4 +98,14 @@ export class SubmissionController {
       throw new BadRequestException(error)
     }
   }
+  @Get('/getMylikes/:id')
+  public async getMylikes(@Param() param: string) {
+    const { id }: TOBE = param;
+
+    try {
+        return await this.submissionService.getLikes(id)
+    } catch (error) {
+      throw new BadRequestException(error)
+    }
+  }
 }

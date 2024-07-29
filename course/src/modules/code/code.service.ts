@@ -35,10 +35,7 @@ export class CodeService {
     function rmSymbol(str) {
       return str.replace(/['"]/g, '');
     }
-    console.log('VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV',all_outPut);
-    console.log('VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV',tests[0]);
-    console.log('VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV',problemType);
-    console.log('^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^',rmSymbol(tests[0]) ,all_outPut[0]);
+
   
 
     for (let i = 0; i < 3; i++) {

@@ -95,6 +95,23 @@ export class SubmissionService {
     return query.map((x) => x.problemName);
   }
 
+  async getLikes(id: string): Promise<any> {
+    return this.submissionModel.aggregate([
+      {
+        $match: {
+          userId: id,
+        },
+      },
+      {
+        $group: {
+          _id: '$userId',
+          totalSubmissions: { $sum: 1 },
+          totalLikes: { $sum: { $size: '$likes' } },
+        },
+      },
+    ]);
+  }
+
   async leaderBoard(): Promise<any> {
     return this.submissionModel
       .aggregate([

@@ -123,9 +123,22 @@ export class CodeController {
       console.log(
         '____________________________________________________________________**',
       );
-      return this.codeService.testCode(outPut_exc, allExpectedOut, problemType);
+      const response = this.codeService.testCode(
+        outPut_exc,
+        allExpectedOut,
+        problemType,
+      );
+      if (response[0]?.result?.error) {
+        console.log('entered to errror ', response[0]?.error);
+
+        throw new BadRequestException(response[0]?.result?.error);
+        
+      }
+      
+      
+      return response;
     } catch (error) {
-      throw new BadRequestException(error)
+      throw new BadRequestException(error);
     }
   }
   @Get('/getAllQuestion')

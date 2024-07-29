@@ -84,6 +84,12 @@ export class CourseService {
         .limit(limit);
       const totalCount = (await this.courseModel.find({ isPublished: true }))
         .length;
+      courses.forEach((course) => {
+        course.lessons.forEach((lesson) => {
+          lesson.video = 'Video is locked until purchase';
+        });
+      });
+
       return {
         courses: courses,
         totalCount: totalCount,

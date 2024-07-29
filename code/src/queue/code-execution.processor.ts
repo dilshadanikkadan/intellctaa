@@ -1,5 +1,3 @@
-
-
 import { Process, Processor } from '@nestjs/bull';
 import { Logger } from '@nestjs/common';
 import { Job } from 'bull';
@@ -57,12 +55,10 @@ export class CodeExecutionProcessor {
       .replace(/\[/g, '(')
       .replace(/\]/g, ')');
 
-  
     const isTestArray_ = testCases[0].startsWith('[');
     const isTeststring = testCases[0].startsWith(`"`);
     const newTest = testCases.map((item) => item.replace(/"/g, ''));
-   
-   
+
     if (isTeststring) {
       return `
 ${code}
@@ -73,7 +69,6 @@ print(res_)
     `.trim();
     }
     if (isTestArray_) {
-
       return `
 ${code}
 res_=[]
@@ -138,7 +133,7 @@ print(res_)
     driver: string,
   ): Promise<string> {
     const isString = testCases[0].startsWith('"');
-    const formattedTestCases = testCases.map(x => x.replace(/^"|"$/g, ''));
+    const formattedTestCases = testCases.map((x) => x.replace(/^"|"$/g, ''));
     let executionCode;
 
     if (isString) {
@@ -148,11 +143,13 @@ print(res_)
       ${driver}  
 
       const results = [];
+
       ${formattedTestCases
         .map(
           (testCase, index) => `
       try {
         const result = ${driver}('${testCase}');
+         
         results.push(result);
       } catch (error) {
         results.push({ case: ${index + 1}, input: "${testCase}", error: error.message });
@@ -173,7 +170,7 @@ print(res_)
       ${testCases
         .map(
           (testCase, index) => `
-      try {
+   
         const result = ${driver}(${testCase});
         results.push(result);
       } catch (error) {
