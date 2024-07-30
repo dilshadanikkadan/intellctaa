@@ -96,6 +96,8 @@ export class EntrollmentService {
   }
 
   async getInstructorOwnAnalytics(id: TOBE): Promise<TOBE> {
+    console.log("________________instructor id",id);
+    
     const date = new Date();
     const lastMonth = new Date(date.getFullYear(), date.getMonth(), 1);
     const previousMonth = new Date(lastMonth);
