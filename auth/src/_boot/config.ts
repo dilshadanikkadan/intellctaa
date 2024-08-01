@@ -18,5 +18,8 @@ export const config = {
     kafka: { 
         broker_urls: envString('KAFKA_BROKER_URLS', 'localhost:29092'),
         client_id: envString('KAFKA_CLIENT_ID', 'kafka-course-client'),
+        username: envString('KAFKA_USERNAME', 'kafka-course-client'),
+        password: envString('KAFKA_PASSWORD', 'kafka-course-client'),
+
     }
 };
