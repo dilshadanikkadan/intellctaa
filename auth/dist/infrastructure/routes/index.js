@@ -1,0 +1,24 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.routes = void 0;
+const login_validation_1 = require("@/_lib/utils/services/validation/login.validation");
+const signup_validation_1 = require("@/_lib/utils/services/validation/signup.validation");
+const controllers_1 = require("@/presentation/controllers");
+const common_1 = require("@intellectaa/common");
+const express_1 = require("express");
+const routes = (dependencies) => {
+    const { creatUser, verifyOtp, refreshToken, logout, googleAuth, resentOtp, forgotPassword, login, resetPassword, currentUser, } = (0, controllers_1.controllers)(dependencies);
+    const router = (0, express_1.Router)();
+    router.post("/signup", signup_validation_1.validateSignUP, common_1.validateRequest, creatUser);
+    router.post("/verifyOtp", verifyOtp);
+    router.post("/refreshToken", refreshToken);
+    router.post("/logout", logout);
+    router.post("/googleSignup", googleAuth);
+    router.post("/resentOtp", resentOtp);
+    router.post("/forgotPassword", forgotPassword);
+    router.post("/resetPassword", resetPassword);
+    router.post("/currentUser", currentUser);
+    router.post("/login", login_validation_1.validateLogin, common_1.validateRequest, login);
+    return router;
+};
+exports.routes = routes;

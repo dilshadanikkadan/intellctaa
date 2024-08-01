@@ -35,5 +35,4 @@ jobs:
           push: true
           tags: dilshadjr3312/intellectaa-chat:latest
 
-#
-          
+

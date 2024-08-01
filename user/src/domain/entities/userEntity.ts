@@ -11,11 +11,11 @@ interface Contact {
   socialMedia?: SocialMedia;
 }
 
-enum Role {
-  student = "student",
-  instructor = "instructor",
-  admin = "admin",
-}
+// enum Role {
+//   student = "student",
+//   instructor = "instructor",
+//   admin = "admin",
+// }
 
 export interface UserEntity {
   _id?: ObjectId;

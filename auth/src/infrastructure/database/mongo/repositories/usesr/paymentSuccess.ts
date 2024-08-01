@@ -11,7 +11,7 @@ export const pyamentUpdateAuth = async (payload) => {
     console.log("paylodf from  pyamentUpdateAuth", adminFund);
     console.log("paylodf from  pyamentUpdateAuth", instructorFund);
     console.log("_______________");
-    const res = await User.findOneAndUpdate(
+     await User.findOneAndUpdate(
       { isAdmin: true },
       {
         $inc: { profit: Math.ceil(adminFund) },

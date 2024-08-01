@@ -2,7 +2,7 @@ import { validateLogin } from "@/_lib/utils/services/validation/login.validation
 import { validateSignUP } from "@/_lib/utils/services/validation/signup.validation";
 import { IDependencies } from "@/application/interfaces/IDependencies";
 import { controllers } from "@/presentation/controllers";
-import { requireUser, validateRequest } from "@intellectaa/common";
+import {  validateRequest } from "@intellectaa/common";
 import { Router } from "express";
 
 export const routes = (dependencies: IDependencies) => {
