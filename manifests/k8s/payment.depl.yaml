@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: intellectaa-payment-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: intellectaa-payment
+  template:
+    metadata:
+      labels:
+        app: intellectaa-payment
+    spec:
+      containers:
+      - image: dilshadjr3312/intellectaa-payment:latest
+        name: intellectaa-payment
+        envFrom:
+          - configMapRef:
+              name: payment-configmap
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: intellectaa-payment-srv
+spec:
+  selector:
+    app: intellectaa-payment-srv
+  ports:
+  - protocol: TCP
+    port: 4001
+    targetPort: 4001

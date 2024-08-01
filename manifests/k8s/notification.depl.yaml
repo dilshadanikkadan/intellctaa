@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: intellectaa-notification-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: intellectaa-notification
+  template:
+    metadata:
+      labels:
+        app: intellectaa-notification
+    spec:
+      containers:
+      - image: dilshadjr3312/intellectaa-notification:latest
+        name: intellectaa-notification
+        envFrom:
+          - configMapRef:
+              name: notification-configmap
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: intellectaa-notification-srv
+spec:
+  selector:
+    app: intellectaa-notification-srv
+  ports:
+  - protocol: TCP
+    port: 4001
+    targetPort: 4001
