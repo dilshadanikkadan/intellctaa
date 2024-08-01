@@ -15,9 +15,7 @@ spec:
       containers:
       - image: dilshadjr3312/intellectaa-code:latest
         name: intellectaa-code
-        envFrom:
-          - configMapRef:
-              name: code-configmap
+
 ---
 apiVersion: v1
 kind: Service

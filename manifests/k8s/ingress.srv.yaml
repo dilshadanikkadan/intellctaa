@@ -1,0 +1,64 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-service
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/use-regex: "true"
+spec:
+  ingressClassName: webapprouting.kubernetes.azure.com
+  rules:
+    - http:
+        paths:
+          - path: /api/auth/?(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: intellectaa-auth-srv 
+                port:
+                  number: 3000
+          - path: /api/user?(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: intellectaa-user-srv 
+                port:
+                  number: 3000
+          - path: /api/payment?(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: intellectaa-payment-srv  
+                port:
+                  number: 3000                  
+          - path: /api/code?(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: intellectaa-code-srv 
+                port:
+                  number: 3000
+          - path: /api/course?(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: intellectaa-course-srv 
+                port:
+                  number: 3000
+          - path: /api/chat?(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: intellectaa-chat-srv 
+                port:
+                  number: 3000
+          - path: /api/notification?(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: intellectaa-notification-srv 
+                port:
+                  number: 3000
+                                        
+                  
+                  

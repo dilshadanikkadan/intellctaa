@@ -15,9 +15,6 @@ spec:
       containers:
       - image: dilshadjr3312/intellectaa-notification:latest
         name: intellectaa-notification
-        envFrom:
-          - configMapRef:
-              name: notification-configmap
 ---
 apiVersion: v1
 kind: Service
