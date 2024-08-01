@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: intellectaa-code-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: intellectaa-code
+  template:
+    metadata:
+      labels:
+        app: intellectaa-code
+    spec:
+      containers:
+      - image: dilshadjr3312/intellectaa-code:latest
+        name: intellectaa-code
+        envFrom:
+          - configMapRef:
+              name: code-configmap
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: intellectaa-code-srv
+spec:
+  selector:
+    app: intellectaa-code-srv
+  ports:
+  - protocol: TCP
+    port: 4001
+    targetPort: 4001

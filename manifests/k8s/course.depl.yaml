@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: intellectaa-course-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: intellectaa-course
+  template:
+    metadata:
+      labels:
+        app: intellectaa-course
+    spec:
+      containers:
+      - image: dilshadjr3312/intellectaa-course:latest
+        name: intellectaa-course
+        envFrom:
+          - configMapRef:
+              name: course-configmap
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: intellectaa-course-srv
+spec:
+  selector:
+    app: intellectaa-course-srv
+  ports:
+  - protocol: TCP
+    port: 4001
+    targetPort: 4001

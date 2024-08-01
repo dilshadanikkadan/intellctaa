@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: intellectaa-auth-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: intellectaa-auth
+  template:
+    metadata:
+      labels:
+        app: intellectaa-auth
+    spec:
+      containers:
+      - image: dilshadjr3312/intellectaa-auth:latest
+        name: intellectaa-auth
+        envFrom:
+          - configMapRef:
+              name: auth-configmap
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: intellectaa-auth-srv
+spec:
+  selector:
+    app: intellectaa-auth-srv
+  ports:
+  - protocol: TCP
+    port: 4001
+    targetPort: 4001

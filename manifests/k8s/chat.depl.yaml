@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: intellectaa-chat-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: intellectaa-chat
+  template:
+    metadata:
+      labels:
+        app: intellectaa-chat
+    spec:
+      containers:
+      - image: dilshadjr3312/intellectaa-chat:latest
+        name: intellectaa-chat
+        envFrom:
+          - configMapRef:
+              name: chat-configmap
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: intellectaa-chat-srv
+spec:
+  selector:
+    app: intellectaa-chat-srv
+  ports:
+  - protocol: TCP
+    port: 4001
+    targetPort: 4001
