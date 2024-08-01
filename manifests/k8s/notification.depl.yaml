@@ -22,8 +22,8 @@ metadata:
   name: intellectaa-notification-srv
 spec:
   selector:
-    app: intellectaa-notification-srv
+    app: intellectaa-notification
   ports:
   - protocol: TCP
-    port: 4001
-    targetPort: 4001
+    port: 3003
+    targetPort: 3003

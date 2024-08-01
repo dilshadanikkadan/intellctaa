@@ -23,8 +23,8 @@ metadata:
   name: intellectaa-course-srv
 spec:
   selector:
-    app: intellectaa-course-srv
+    app: intellectaa-course
   ports:
   - protocol: TCP
-    port: 4001
-    targetPort: 4001
+    port: 3005
+    targetPort: 3005

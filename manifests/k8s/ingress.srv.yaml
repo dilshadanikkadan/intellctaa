@@ -16,49 +16,49 @@ spec:
               service:
                 name: intellectaa-auth-srv 
                 port:
-                  number: 3000
+                  number: 3001
           - path: /api/user?(.*)
             pathType: Prefix
             backend:
               service:
                 name: intellectaa-user-srv 
                 port:
-                  number: 3000
+                  number: 3004
           - path: /api/payment?(.*)
             pathType: Prefix
             backend:
               service:
                 name: intellectaa-payment-srv  
                 port:
-                  number: 3000                  
+                  number: 3007                  
           - path: /api/code?(.*)
             pathType: Prefix
             backend:
               service:
                 name: intellectaa-code-srv 
                 port:
-                  number: 3000
+                  number: 3006
           - path: /api/course?(.*)
             pathType: Prefix
             backend:
               service:
                 name: intellectaa-course-srv 
                 port:
-                  number: 3000
+                  number: 3005
           - path: /api/chat?(.*)
             pathType: Prefix
             backend:
               service:
                 name: intellectaa-chat-srv 
                 port:
-                  number: 3000
+                  number: 3008
           - path: /api/notification?(.*)
             pathType: Prefix
             backend:
               service:
                 name: intellectaa-notification-srv 
                 port:
-                  number: 3000
+                  number: 3003
                                         
                   
                   

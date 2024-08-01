@@ -12,11 +12,20 @@ import { EntrollmentModule } from './modules/entrollment/entrollment.module';
 import { SubmissionModule } from './modules/submission/submission.module';
 import { TasksModule } from './modules/tasks/tasks.module';
 import { CategoryModule } from './modules/category/category.module';
-
+import { ConfigModule,ConfigService } from '@nestjs/config';
 @Module({
   imports: [
-    MongooseModule.forRoot('mongodb+srv://dilu1234:dilshad4321@cluster0.mx2yncu.mongodb.net/courese-service'),
-    // MongooseModule.forRoot('mongodb://localhost:27017/test_nest'),
+    // MongooseModule.forRoot('mongodb+srv://dilu1234:dilshad4321@cluster0.mx2yncu.mongodb.net/courese-service'),
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
+    MongooseModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: async (configService: ConfigService) => ({
+        uri: configService.get<string>('MONGO_URL'),
+      }),
+      inject: [ConfigService],
+    }),
     EmailModule,
     EventEmitterModule.forRoot(),
     CodeModule, 

@@ -23,8 +23,8 @@ metadata:
   name: intellectaa-code-srv
 spec:
   selector:
-    app: intellectaa-code-srv
+    app: intellectaa-code
   ports:
   - protocol: TCP
-    port: 4001
-    targetPort: 4001
+    port: 3006
+    targetPort: 3006

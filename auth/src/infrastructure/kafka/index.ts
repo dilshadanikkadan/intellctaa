@@ -10,7 +10,7 @@ import { config } from "@/_boot/config";
         password: config.kafka.password,
         mechanism: 'plain'
     },
-    connectionTimeout: 30000, 
+    connectionTimeout: 30000,  
     authenticationTimeout: 30000
 });
 
