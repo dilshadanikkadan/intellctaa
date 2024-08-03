@@ -76,7 +76,7 @@ export class CodeController {
         this.readFile( `${question}/languages/${language}/driver.${fileExt}`),
         this.readFile( `${question}/languages/${language}/test.case.txt`),
         this.readFile( `${question}/languages/${language}/output.txt`),
-        this.readFile(`${question}/${question}/${readMdFile}.md`),
+        this.readFile(`${question}/${readMdFile}.md`),
         this.readFile( `${question}/languages/${language}/solution.template.${fileExt}`),
       ]);
 
