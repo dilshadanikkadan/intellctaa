@@ -160,17 +160,18 @@ print(res_)
 
       console.log(JSON.stringify(results));
     `;
-    } else {
+    }
+    else {
       executionCode = `
       ${code}
-
+    
       ${driver}  
-
+    
       const results = [];
       ${testCases
         .map(
           (testCase, index) => `
-   
+      try {
         const result = ${driver}(${testCase});
         results.push(result);
       } catch (error) {
@@ -179,11 +180,10 @@ print(res_)
       `,
         )
         .join('\n')}
-
+    
       console.log(JSON.stringify(results));
     `;
     }
-
     return new Promise((resolve, reject) => {
       const process = spawn('node', ['-e', executionCode]);
       let output = '';
