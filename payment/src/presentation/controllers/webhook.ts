@@ -30,7 +30,7 @@ export const webhookController = (dependencies: IDependencies) => {
     } catch (err) {
       res.status(400).send(`Webhook Error: ${(err as Error).message}`);
       return;
-    }
+    } 
     switch (event.type) {
       case "checkout.session.completed":
         const session = event.data.object;

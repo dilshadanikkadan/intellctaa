@@ -7,7 +7,7 @@ import { errorHandler } from "@intellectaa/common";
 const app: Application = express();
 
 app.use((req, res, next) => {
-  if (req.originalUrl === '/webhook') {
+  if (req.originalUrl === '/api/payment/webhook') {
     next();
   } else {
     express.json()(req, res, next);
@@ -16,6 +16,7 @@ app.use((req, res, next) => {
 
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+
 app.use("/api/payment",routes(dependencies));
 app.use(errorHandler);
 app.get("/", (req: any, res) => {
