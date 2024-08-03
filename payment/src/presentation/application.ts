@@ -3,13 +3,9 @@ import  cookieParser from "cookie-parser";
 import { dependencies } from "@/_boot/dependencies";
 import { routes } from "@/infrastructure/routes";
 import { errorHandler } from "@intellectaa/common";
-import bodyParser from "body-parser";
 
 const app: Application = express();
-app.use(
-  "/api/payment/webhook",
-  bodyParser.raw({ type: "application/json" })
-);
+
 app.use((req, res, next) => {
   if (req.originalUrl === '/api/payment/webhook') {
     next();
