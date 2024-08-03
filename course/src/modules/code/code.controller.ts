@@ -79,7 +79,6 @@ export class CodeController {
         this.readFile(`${question}/${readMdFile}.md`),
         this.readFile( `${question}/languages/${language}/solution.template.${fileExt}`),
       ]);
-
     res
       .status(200)
       .json([
