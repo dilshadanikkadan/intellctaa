@@ -16,7 +16,7 @@ app.use((req, res, next) => {
 
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-app.use("/api/pyament",routes(dependencies));
+app.use("/api/payment",routes(dependencies));
 app.use(errorHandler);
 app.get("/", (req: any, res) => {
   res.status(200).json({
