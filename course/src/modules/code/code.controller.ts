@@ -18,10 +18,12 @@ import { RequireAdminGuard } from 'src/guards/requireAdmin';
 import { RequireUserGuard } from 'src/guards/requireUser';
 import axios from 'axios';
 import { BASE_PATH, GITHUB_TOKEN, GITHUB_USERNAME } from './constant/code.constant';
+import { ConfigService } from '@nestjs/config';
 const PROBLEMS_DIR = join(process.cwd(), '..', 'problems');
 @Controller('')
 export class CodeController {
-  constructor(private codeService: CodeService) {}
+
+  constructor(private codeService: CodeService,private configSrv:ConfigService) {}
 
   private async readFile( fileName?: string): Promise<any> {
     try {
@@ -29,9 +31,9 @@ export class CodeController {
       
       const repo = 'problmes';
       const path = 'add_num_.md';
-      const response = await axios.get(`https://api.github.com/repos/${GITHUB_USERNAME}/${repo}/contents/${fileName}`, {
+      const response = await axios.get(`https://api.github.com/repos/${this.configSrv.get<string>('GITHUB_USERNAME')}/${repo}/contents/${fileName}`, {
           headers: {
-              'Authorization': `token ${GITHUB_TOKEN}`,
+              'Authorization': `token ${this.configSrv.get<string>('GITHUB_SECRET')}`,
               'Accept': 'application/vnd.github.v3.raw'
           }
     });
