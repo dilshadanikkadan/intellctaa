@@ -15,6 +15,7 @@ spec:
       containers:
       - image: dilshadjr3312/intellectaa-code:latest
         name: intellectaa-code
+   
 
 ---
 apiVersion: v1

@@ -11,8 +11,9 @@ import { BullModule } from '@nestjs/bull';
   imports: [
     BullModule.forRoot({
       redis: {
-        host: 'localhost',
-        port: 6379,
+        host: 'redis-18485.c114.us-east-1-4.ec2.redns.redis-cloud.com',
+        port: 18485,
+        password: '6tUWVAf59j79lFBJI4MyD2Bu8MzaAKWc',
       },
     }),
 

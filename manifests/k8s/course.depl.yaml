@@ -15,6 +15,9 @@ spec:
       containers:
       - image: dilshadjr3312/intellectaa-course:latest
         name: intellectaa-course
+        envFrom:
+          - configMapRef:
+              name: course-configmap             
 
 ---
 apiVersion: v1
@@ -27,4 +30,4 @@ spec:
   ports:
   - protocol: TCP
     port: 3005
-    targetPort: 3005
+    targetPort: 3005  

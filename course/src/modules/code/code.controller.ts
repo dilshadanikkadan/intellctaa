@@ -16,14 +16,30 @@ import { Response } from 'express';
 import { promises as fs, readdirSync } from 'fs';
 import { RequireAdminGuard } from 'src/guards/requireAdmin';
 import { RequireUserGuard } from 'src/guards/requireUser';
+import axios from 'axios';
+import { BASE_PATH, GITHUB_TOKEN, GITHUB_USERNAME } from './constant/code.constant';
 const PROBLEMS_DIR = join(process.cwd(), '..', 'problems');
 @Controller('')
 export class CodeController {
   constructor(private codeService: CodeService) {}
 
-  private async readFile(basePath: string, fileName: string): Promise<any> {
-    const filePath = join(basePath, fileName);
-    return fs.readFile(filePath, 'utf8');
+  private async readFile( fileName?: string): Promise<any> {
+    try {
+      console.log("________this is file",fileName);
+      
+      const repo = 'problmes';
+      const path = 'add_num_.md';
+      const response = await axios.get(`https://api.github.com/repos/${GITHUB_USERNAME}/${repo}/contents/${fileName}`, {
+          headers: {
+              'Authorization': `token ${GITHUB_TOKEN}`,
+              'Accept': 'application/vnd.github.v3.raw'
+          }
+    });
+    return response.data
+    } catch (error) {
+      //  console.log(error);
+    }
+
   }
 
   @Get('/getFile/:question/:language')
@@ -53,13 +69,13 @@ export class CodeController {
     );
 
     const readMdFile = question.replace(/\d/g, '');
-    const [driver, testCases, expectedOut, readMd, solutionTemplate] =
+    const [driver,testCases,expectedOut,readMd,solutionTemplate] =
       await Promise.all([
-        this.readFile(basePath_Question, `driver.${fileExt}`),
-        this.readFile(basePath_Question, 'test.case.txt'),
-        this.readFile(basePath_Question, 'output.txt'),
-        this.readFile(`${PROBLEMS_DIR}/${question}`, `${readMdFile}.md`),
-        this.readFile(basePath_Question, `solution.template.${fileExt}`),
+        this.readFile( `${question}/languages/${language}/driver.${fileExt}`),
+        this.readFile( `${question}/languages/${language}/test.case.txt`),
+        this.readFile( `${question}/languages/${language}/output.txt`),
+        this.readFile(`${question}/${question}/${readMdFile}.md`),
+        this.readFile( `${question}/languages/${language}/solution.template.${fileExt}`),
       ]);
 
     res
@@ -99,9 +115,9 @@ export class CodeController {
       );
 
       const [driver, testCases, expectedOut] = await Promise.all([
-        this.readFile(basePath_Question, `driver.${fileExt}`),
-        this.readFile(basePath_Question, 'test.case.txt'),
-        this.readFile(basePath_Question, 'output.txt'),
+        this.readFile( `${question}/languages/${language}/driver.${fileExt}`),
+        this.readFile( `${question}/languages/${language}/test.case.txt`),
+        this.readFile( `${question}/languages/${language}/output.txt`),
       ]);
 
       const allTestCases = testCases.split('__').map((test) => test.trim());
