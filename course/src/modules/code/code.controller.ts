@@ -161,8 +161,9 @@ export class CodeController {
   }
   @Get('/getAllQuestion')
   @UseGuards(RequireUserGuard)
-  getAllQuestion() {
-    const allProblems = readdirSync(PROBLEMS_DIR);
-    return allProblems.filter((x) => /\d/.test(x));
+  async getAllQuestion() {
+    const allProblems = await this.readFile(``)
+    const filtered = allProblems.map(x=> x.name)
+    return filtered.filter((x) => /\d/.test(x));
   }
 }
