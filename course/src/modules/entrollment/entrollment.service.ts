@@ -125,7 +125,7 @@ export class EntrollmentService {
         $match: {
           $and: [
             {
-              'coursesData.instructor': instructorId,
+              'coursesData.instructor': id,
             },
             {
               enrolledAt: {
@@ -155,6 +155,8 @@ export class EntrollmentService {
   }
 
   async getInstructorTrendCourse(id: string): Promise<any> {
+    console.log("****** instrcuotr",id);
+    
     const instructorId = new mongoose.Types.ObjectId(id);
     const data = await this.entrollmentModel.aggregate([
       {
@@ -167,7 +169,7 @@ export class EntrollmentService {
                 $expr: {
                   $and: [
                     { $eq: ['$_id', '$$courseId'] },
-                    { $eq: ['$instructor', instructorId] },
+                    // { $eq: ['$instructor', "66adf457c480df7db68e2216"] },
                   ],
                 },
               },
@@ -176,9 +178,16 @@ export class EntrollmentService {
           as: 'coursesData',
         },
       },
+
       {
         $unwind: '$coursesData',
       },
+      {
+        $match: {
+              'coursesData.instructor': id,         
+        },
+      },
+   
       {
         $group: {
           _id: '$coursesData._id',
