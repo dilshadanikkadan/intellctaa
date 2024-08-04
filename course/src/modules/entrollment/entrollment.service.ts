@@ -125,8 +125,12 @@ export class EntrollmentService {
         $match: {
           $and: [
             {
-              'coursesData.instructor': id,
+              $or: [
+                { 'coursesData.instructor': instructorId },
+                { 'coursesData.instructor': id }
+              ]
             },
+            
             {
               enrolledAt: {
                 $gte: previousMonth,
@@ -184,8 +188,12 @@ export class EntrollmentService {
       },
       {
         $match: {
-              'coursesData.instructor': id,         
+          $or: [
+            { 'coursesData.instructor': instructorId },
+            { 'coursesData.instructor': id }
+          ]
         },
+        
       },
    
       {
