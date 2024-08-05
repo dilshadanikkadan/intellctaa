@@ -17,31 +17,39 @@ import { promises as fs, readdirSync } from 'fs';
 import { RequireAdminGuard } from 'src/guards/requireAdmin';
 import { RequireUserGuard } from 'src/guards/requireUser';
 import axios from 'axios';
-import { BASE_PATH, GITHUB_TOKEN, GITHUB_USERNAME } from './constant/code.constant';
+import {
+  BASE_PATH,
+  GITHUB_TOKEN,
+  GITHUB_USERNAME,
+} from './constant/code.constant';
 import { ConfigService } from '@nestjs/config';
 const PROBLEMS_DIR = join(process.cwd(), '..', 'problems');
 @Controller('')
 export class CodeController {
+  constructor(
+    private codeService: CodeService,
+    private configSrv: ConfigService,
+  ) {}
 
-  constructor(private codeService: CodeService,private configSrv:ConfigService) {}
-
-  private async readFile( fileName?: string): Promise<any> {
+  private async readFile(fileName?: string): Promise<any> {
     try {
-      console.log("________this is file",fileName);
-      
+      console.log('________this is file', fileName);
+
       const repo = 'problmes';
       const path = 'add_num_.md';
-      const response = await axios.get(`https://api.github.com/repos/${this.configSrv.get<string>('GITHUB_USERNAME')}/${repo}/contents/${fileName}`, {
+      const response = await axios.get(
+        `https://api.github.com/repos/${this.configSrv.get<string>('GITHUB_USERNAME')}/${repo}/contents/${fileName}`,
+        {
           headers: {
-              'Authorization': `token ${this.configSrv.get<string>('GITHUB_SECRET')}`,
-              'Accept': 'application/vnd.github.v3.raw'
-          }
-    });
-    return response.data
+            Authorization: `token ${this.configSrv.get<string>('GITHUB_SECRET')}`,
+            Accept: 'application/vnd.github.v3.raw',
+          },
+        },
+      );
+      return response.data;
     } catch (error) {
       //  console.log(error);
-    } 
-
+    }
   }
 
   @Get('/getFile/:question/:language')
@@ -71,13 +79,15 @@ export class CodeController {
     );
 
     const readMdFile = question.replace(/\d/g, '');
-    const [driver,testCases,expectedOut,readMd,solutionTemplate] =
+    const [driver, testCases, expectedOut, readMd, solutionTemplate] =
       await Promise.all([
-        this.readFile( `${question}/languages/${language}/driver.${fileExt}`),
-        this.readFile( `${question}/languages/${language}/test.case.txt`),
-        this.readFile( `${question}/languages/${language}/output.txt`),
+        this.readFile(`${question}/languages/${language}/driver.${fileExt}`),
+        this.readFile(`${question}/languages/${language}/test.case.txt`),
+        this.readFile(`${question}/languages/${language}/output.txt`),
         this.readFile(`${question}/${readMdFile}.md`),
-        this.readFile( `${question}/languages/${language}/solution.template.${fileExt}`),
+        this.readFile(
+          `${question}/languages/${language}/solution.template.${fileExt}`,
+        ),
       ]);
     res
       .status(200)
@@ -116,9 +126,9 @@ export class CodeController {
       );
 
       const [driver, testCases, expectedOut] = await Promise.all([
-        this.readFile( `${question}/languages/${language}/driver.${fileExt}`),
-        this.readFile( `${question}/languages/${language}/test.case.txt`),
-        this.readFile( `${question}/languages/${language}/output.txt`),
+        this.readFile(`${question}/languages/${language}/driver.${fileExt}`),
+        this.readFile(`${question}/languages/${language}/test.case.txt`),
+        this.readFile(`${question}/languages/${language}/output.txt`),
       ]);
 
       const allTestCases = testCases.split('__').map((test) => test.trim());
@@ -149,10 +159,8 @@ export class CodeController {
         console.log('entered to errror ', response[0]?.error);
 
         throw new BadRequestException(response[0]?.result?.error);
-        
       }
-      
-      
+
       return response;
     } catch (error) {
       throw new BadRequestException(error);
@@ -161,8 +169,8 @@ export class CodeController {
   @Get('/getAllQuestion')
   @UseGuards(RequireUserGuard)
   async getAllQuestion() {
-    const allProblems = await this.readFile(``)
-    const filtered = allProblems.map(x=> x.name)
+    const allProblems = await this.readFile(``);
+    const filtered = allProblems.map((x) => x.name);
     return filtered.filter((x) => /\d/.test(x));
   }
 }

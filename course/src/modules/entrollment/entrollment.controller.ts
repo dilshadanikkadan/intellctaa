@@ -54,6 +54,7 @@ export class EntrollmentController {
   }
 
   @Get('/getEntrollAnalatytics/')
+  @UseGuards(RequireUserGuard)
   public async getEntrollAnalatytics() {
     try {
       return await this.entrollmentService.getEntrollAnalatytics();
@@ -62,6 +63,7 @@ export class EntrollmentController {
     }
   }
   @Get('/getInstructorOwnAnalytics/:id')
+  @UseGuards(RequireUserGuard)
   public async getInstructorOwnAnalytics(@Param() param: string) {
     try {
       const { id }: TOBE = param;
