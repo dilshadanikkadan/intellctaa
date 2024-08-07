@@ -98,10 +98,15 @@ export class CourseService {
   }
 
   async getInstructorCourse(id: any) {
-    const objectId = new mongoose.Types.ObjectId(id);
-    console.log(mongoose.isValidObjectId(id), 'checking is valid or not');
+    const objectId = mongoose.isValidObjectId(id) ? new mongoose.Types.ObjectId(id) : null;
 
-    const res = await this.courseModel.find({ instructor: id });
+    const res = await this.courseModel.find({
+        $or: [
+            { instructor: objectId },   
+            { instructor: id }          
+        ]
+    });
+
     console.log('_______________', objectId);
     if (res.length === 0) {
       const newRes = await this.courseModel.find({ instructor: objectId });
