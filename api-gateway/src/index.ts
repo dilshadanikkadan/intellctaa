@@ -9,7 +9,7 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT; 
 const corsOptions = {
-  origin: [ "http://localhost:3000"],
+  origin: [ "https://intellectaa-front-end.vercel.app"],
 
 credentials: true,
 methods: ["GET", "POST", "PUT", "DELETE"],
@@ -20,11 +20,11 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.use("/api/auth", proxy("https://intellectaa-auth-latest.onrender.com/"));
-app.use("/api/user", proxy("http://localhost:3004/"));
-app.use("/api/course", proxy("http://localhost:3005/"));
+app.use("/api/user", proxy("https://intellectaa-user-latest.onrender.com/"));
+app.use("/api/course", proxy("https://intellectaa-code-latest.onrender.com/"));
 app.use("/api/code", proxy("http://localhost:3006/"));
-app.use("/api/payment", proxy("http://localhost:3007/"));
-app.use("/api/chat", proxy("http://localhost:3008/"));
+app.use("/api/payment", proxy("https://intellectaa-payment-latest.onrender.com/"));
+app.use("/api/chat", proxy("https://intellectaa-chat-latest.onrender.com/"));
 
 app.listen(PORT, () => {
   console.log(`The gateway is listening to the port ${PORT}`);

@@ -26,7 +26,7 @@ export const refreshTokenController = (dependencies: IDependencies) => {
       res.cookie("token", newAccessToken, {
         httpOnly: true,
         secure: false,
-        sameSite: "strict",
+        sameSite: "none",
       });
       res.status(200).json(newAccessToken);
     } catch (error) {

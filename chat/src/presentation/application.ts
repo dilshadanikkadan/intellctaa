@@ -24,7 +24,7 @@ const corsOptions = {
 };
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-app.use("/api/chat",routes(dependencies));
+app.use(routes(dependencies));
 app.use(cors(corsOptions));
 app.use(errorHandler);
 app.get("/", (req: any, res) => {
