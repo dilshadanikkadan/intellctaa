@@ -5,13 +5,15 @@ import { Kafka, EachMessagePayload } from 'kafkajs';
 import { createSubscriber } from '..';
 
 const kafka = new Kafka({
-  brokers: ['pkc-4j8dq.southeastasia.azure.confluent.cloud:9092'],
+  brokers: [
+    "crd85ep2b32l8feg5b6g.any.eu-central-1.mpx.prd.cloud.redpanda.com:9092",
+],
   clientId: 'notification-service',
   ssl: true,
   sasl: {
-      username: 'XCMNFOJUTKPN2OFT',
-      password: 'j4cBIwDAZSewKrcPdtJvcsvXKMWm7EMS7zI8CpW8OTpwlEXdaYxzvG9xU/TBKJ0x',
-      mechanism: 'plain'
+    mechanism: "scram-sha-256",
+    username: "intellectaa",
+    password: "mFcGaclJV2zDGmphhQoqnF1RUGnbmD",
   },
   connectionTimeout: 30000, 
   authenticationTimeout: 30000

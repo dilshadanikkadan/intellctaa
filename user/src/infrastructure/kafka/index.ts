@@ -6,9 +6,9 @@ export const kafka = new Kafka({
     clientId: config.kafka.client_id,
     ssl: true,
     sasl: {
-        username: config.kafka.username,
-        password: config.kafka.password,
-        mechanism: 'plain'
+        mechanism: "scram-sha-256",
+        username: "intellectaa",
+        password: "mFcGaclJV2zDGmphhQoqnF1RUGnbmD",
     },
     connectionTimeout: 30000, 
     authenticationTimeout: 30000
