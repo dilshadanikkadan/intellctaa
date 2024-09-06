@@ -19,7 +19,7 @@ app.use(cors(corsOptions));
 app.use(express.json());
 app.use(cookieParser());
 
-app.use("/api/auth", proxy("http://localhost:3001/"));
+app.use("/api/auth", proxy("https://intellectaa-auth-latest.onrender.com/"));
 app.use("/api/user", proxy("http://localhost:3004/"));
 app.use("/api/course", proxy("http://localhost:3005/"));
 app.use("/api/code", proxy("http://localhost:3006/"));
