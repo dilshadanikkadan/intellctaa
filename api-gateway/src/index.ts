@@ -21,8 +21,8 @@ app.use(cookieParser());
 
 app.use("/api/auth", proxy("https://intellectaa-auth-latest.onrender.com/"));
 app.use("/api/user", proxy("https://intellectaa-user-latest.onrender.com/"));
-app.use("/api/course", proxy("https://intellectaa-code-latest.onrender.com/"));
-app.use("/api/code", proxy("http://localhost:3006/"));
+app.use("/api/code", proxy("https://intellectaa-code-latest.onrender.com/"));
+app.use("/api/course", proxy("https://intellectaa-course-latest.onrender.com/"));
 app.use("/api/payment", proxy("https://intellectaa-payment-latest.onrender.com/"));
 app.use("/api/chat", proxy("https://intellectaa-chat-latest.onrender.com/"));
 

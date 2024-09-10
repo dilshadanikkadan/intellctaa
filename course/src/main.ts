@@ -6,7 +6,6 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.use(cookieParser())
   app.useGlobalPipes(new ValidationPipe());
-  // app.setGlobalPrefix('/api/course');
   await app.listen(3005);
 
 }
