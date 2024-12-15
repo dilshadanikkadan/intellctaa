@@ -12,8 +12,8 @@
     },
     sasl: {
         mechanism: "scram-sha-256",
-        username: "intellectaa",
-        password: "mFcGaclJV2zDGmphhQoqnF1RUGnbmD",
+        username: "intellecta",
+        password: "TQrIt7AImFZIQfFYOT4M0LqYudpmAv",
     },
     connectionTimeout: 30000,
     authenticationTimeout: 30000,

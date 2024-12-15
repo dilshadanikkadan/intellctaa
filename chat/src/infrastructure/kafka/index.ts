@@ -7,8 +7,8 @@ export const kafka = new Kafka({
     ssl: true,
     sasl: {
         mechanism: "scram-sha-256",
-        username: config.kafka.username,
-        password: config.kafka.password,
+        username: "intellecta",
+        password: "TQrIt7AImFZIQfFYOT4M0LqYudpmAv",
     },
     connectionTimeout: 30000, 
     authenticationTimeout: 30000
