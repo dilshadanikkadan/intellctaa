@@ -6,18 +6,16 @@ import { createSubscriber } from '..';
 
 const kafka = new Kafka({
 
-  brokers: [
-    "crd85ep2b32l8feg5b6g.any.eu-central-1.mpx.prd.cloud.redpanda.com:9092",
-],
-  clientId: 'caourse-service',
-  ssl: true,
+  brokers: ['ctf3htrkt6m8edsm8osg.any.eu-central-1.mpx.prd.cloud.redpanda.com:9092'],
+  clientId: 'kafka-course-client',
+  ssl:true,
   sasl: {
-    mechanism: "scram-sha-256",
-    username: "intellecta",
-    password: "TQrIt7AImFZIQfFYOT4M0LqYudpmAv",
+      mechanism: "scram-sha-256",
+      username: "dilshad",
+      password: "XmR91HeQI3E2qjPNKbaPyErRwFja0w",
   },
   connectionTimeout: 30000, 
-  authenticationTimeout: 30000
+  authenticationTimeout: 30000,
 });
 
 const consumer = kafka.consumer({

@@ -1,8 +1,8 @@
-import { Kafka, Producer, Consumer, logLevel, Partitioners } from "kafkajs";
+import { Kafka, Producer, Consumer, Partitioners } from "kafkajs";
 // import { config } from "@/_boot/config";
 
 export const kafka = new Kafka({
-    brokers: ['crd85ep2b32l8feg5b6g.any.eu-central-1.mpx.prd.cloud.redpanda.com:9092'],
+    brokers: ['ctf3htrkt6m8edsm8osg.any.eu-central-1.mpx.prd.cloud.redpanda.com:9092'],
    clientId: 'kafka-course-client',
     ssl:true,
     sasl: {
@@ -12,7 +12,6 @@ export const kafka = new Kafka({
     },
     connectionTimeout: 30000, 
     authenticationTimeout: 30000,
-    logLevel: logLevel.DEBUG
 });
 
 export const producer: Producer = kafka.producer({
