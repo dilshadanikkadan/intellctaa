@@ -9,7 +9,7 @@ export const main = async () => {
 
     await database();
     await GlobalConsumer.listen().then(()=>{
-      console.log("👓 is listening");
+      console.log("👓 consumer .. is listening");
       
     })
     process.on("SIGTERM", async () => {
